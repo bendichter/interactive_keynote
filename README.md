@@ -7,3 +7,5 @@ https://developer.mozilla.org/en/docs/Web/SVG/Element/foreignObject
 (doesn't work with IE)
 
 https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+http://bl.ocks.org/jebeck/10699411
