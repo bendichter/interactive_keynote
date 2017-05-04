@@ -9,3 +9,5 @@ https://developer.mozilla.org/en/docs/Web/SVG/Element/foreignObject
 https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
 http://bl.ocks.org/jebeck/10699411
+
+Are animations supported?
