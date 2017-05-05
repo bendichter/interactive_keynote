@@ -247,7 +247,7 @@ ClientConnection = (function () {
             }
             return new es6_promise_1.Promise((function (_this) {
                 return function (resolve, reject) {
-                    _this.socket.binaryType = "arraybuffer";
+                    _this.socket.binarytype = "arraybuffer";
                     _this.socket.onopen = function () {
                         return _this._on_open(resolve, reject);
                     };
@@ -591,8 +591,23 @@ exports.pull_session = function (url, session_id, args_string) {
 
 },{"./core/logging":"core/logging","./core/util/object":"core/util/object","./core/util/string":"core/util/string","./document":"document","es6-promise":"es6-promise"}],"core/bokeh_events":[function(require,module,exports){
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = require("tslib");
 var logging_1 = require("./logging");
 var object_1 = require("./util/object");
 var event_classes = {};
@@ -653,20 +668,20 @@ var BokehEvent = (function () {
 exports.BokehEvent = BokehEvent;
 BokehEvent.prototype.applicable_models = [];
 var ButtonClick = (function (_super) {
-    tslib_1.__extends(ButtonClick, _super);
+    __extends(ButtonClick, _super);
     function ButtonClick() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return ButtonClick;
 }(BokehEvent));
-ButtonClick = tslib_1.__decorate([
+ButtonClick = __decorate([
     register_event_class("button_click")
 ], ButtonClick);
 exports.ButtonClick = ButtonClick;
 // A UIEvent is an event originating on a PlotCanvas this includes
 // DOM events such as keystrokes as well as hammer events and LOD events.
 var UIEvent = (function (_super) {
-    tslib_1.__extends(UIEvent, _super);
+    __extends(UIEvent, _super);
     function UIEvent() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -674,29 +689,29 @@ var UIEvent = (function (_super) {
 }(BokehEvent));
 exports.UIEvent = UIEvent;
 var LODStart = (function (_super) {
-    tslib_1.__extends(LODStart, _super);
+    __extends(LODStart, _super);
     function LODStart() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return LODStart;
 }(UIEvent));
-LODStart = tslib_1.__decorate([
+LODStart = __decorate([
     register_event_class("lodstart")
 ], LODStart);
 exports.LODStart = LODStart;
 var LODEnd = (function (_super) {
-    tslib_1.__extends(LODEnd, _super);
+    __extends(LODEnd, _super);
     function LODEnd() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return LODEnd;
 }(UIEvent));
-LODEnd = tslib_1.__decorate([
+LODEnd = __decorate([
     register_event_class("lodend")
 ], LODEnd);
 exports.LODEnd = LODEnd;
 var PointEvent = (function (_super) {
-    tslib_1.__extends(PointEvent, _super);
+    __extends(PointEvent, _super);
     function PointEvent(options) {
         var _this = _super.call(this, options) || this;
         _this.sx = options.sx;
@@ -710,10 +725,10 @@ var PointEvent = (function (_super) {
         return new this({ sx: e.bokeh['sx'], sy: e.bokeh['sy'], model_id: model_id });
     };
     PointEvent.prototype._customize_event = function (plot) {
-        var xscale = plot.plot_canvas.frame.xscales['default'];
-        var yscale = plot.plot_canvas.frame.yscales['default'];
-        this.x = xscale.invert(plot.plot_canvas.canvas.sx_to_vx(this.sx));
-        this.y = yscale.invert(plot.plot_canvas.canvas.sy_to_vy(this.sy));
+        var xmapper = plot.plot_canvas.frame.x_mappers['default'];
+        var ymapper = plot.plot_canvas.frame.y_mappers['default'];
+        this.x = xmapper.map_from_target(plot.plot_canvas.canvas.sx_to_vx(this.sx));
+        this.y = ymapper.map_from_target(plot.plot_canvas.canvas.sy_to_vy(this.sy));
         this._options['x'] = this.x;
         this._options['y'] = this.y;
         return this;
@@ -722,7 +737,7 @@ var PointEvent = (function (_super) {
 }(UIEvent));
 exports.PointEvent = PointEvent;
 var Pan = (function (_super) {
-    tslib_1.__extends(Pan, _super);
+    __extends(Pan, _super);
     function Pan(options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, options) || this;
@@ -743,12 +758,12 @@ var Pan = (function (_super) {
     };
     return Pan;
 }(PointEvent));
-Pan = tslib_1.__decorate([
+Pan = __decorate([
     register_event_class("pan")
 ], Pan);
 exports.Pan = Pan;
 var Pinch = (function (_super) {
-    tslib_1.__extends(Pinch, _super);
+    __extends(Pinch, _super);
     function Pinch(options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, options) || this;
@@ -766,12 +781,12 @@ var Pinch = (function (_super) {
     };
     return Pinch;
 }(PointEvent));
-Pinch = tslib_1.__decorate([
+Pinch = __decorate([
     register_event_class("pinch")
 ], Pinch);
 exports.Pinch = Pinch;
 var MouseWheel = (function (_super) {
-    tslib_1.__extends(MouseWheel, _super);
+    __extends(MouseWheel, _super);
     function MouseWheel(options) {
         if (options === void 0) { options = {}; }
         var _this = _super.call(this, options) || this;
@@ -789,122 +804,122 @@ var MouseWheel = (function (_super) {
     };
     return MouseWheel;
 }(PointEvent));
-MouseWheel = tslib_1.__decorate([
+MouseWheel = __decorate([
     register_event_class("wheel")
 ], MouseWheel);
 exports.MouseWheel = MouseWheel;
 var MouseMove = (function (_super) {
-    tslib_1.__extends(MouseMove, _super);
+    __extends(MouseMove, _super);
     function MouseMove() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MouseMove;
 }(PointEvent));
-MouseMove = tslib_1.__decorate([
+MouseMove = __decorate([
     register_event_class("mousemove")
 ], MouseMove);
 exports.MouseMove = MouseMove;
 var MouseEnter = (function (_super) {
-    tslib_1.__extends(MouseEnter, _super);
+    __extends(MouseEnter, _super);
     function MouseEnter() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MouseEnter;
 }(PointEvent));
-MouseEnter = tslib_1.__decorate([
+MouseEnter = __decorate([
     register_event_class("mouseenter")
 ], MouseEnter);
 exports.MouseEnter = MouseEnter;
 var MouseLeave = (function (_super) {
-    tslib_1.__extends(MouseLeave, _super);
+    __extends(MouseLeave, _super);
     function MouseLeave() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MouseLeave;
 }(PointEvent));
-MouseLeave = tslib_1.__decorate([
+MouseLeave = __decorate([
     register_event_class("mouseleave")
 ], MouseLeave);
 exports.MouseLeave = MouseLeave;
 var Tap = (function (_super) {
-    tslib_1.__extends(Tap, _super);
+    __extends(Tap, _super);
     function Tap() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return Tap;
 }(PointEvent));
-Tap = tslib_1.__decorate([
+Tap = __decorate([
     register_event_class("tap")
 ], Tap);
 exports.Tap = Tap;
 var DoubleTap = (function (_super) {
-    tslib_1.__extends(DoubleTap, _super);
+    __extends(DoubleTap, _super);
     function DoubleTap() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return DoubleTap;
 }(PointEvent));
-DoubleTap = tslib_1.__decorate([
+DoubleTap = __decorate([
     register_event_class("doubletap")
 ], DoubleTap);
 exports.DoubleTap = DoubleTap;
 var Press = (function (_super) {
-    tslib_1.__extends(Press, _super);
+    __extends(Press, _super);
     function Press() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return Press;
 }(PointEvent));
-Press = tslib_1.__decorate([
+Press = __decorate([
     register_event_class("press")
 ], Press);
 exports.Press = Press;
 var PanStart = (function (_super) {
-    tslib_1.__extends(PanStart, _super);
+    __extends(PanStart, _super);
     function PanStart() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return PanStart;
 }(PointEvent));
-PanStart = tslib_1.__decorate([
+PanStart = __decorate([
     register_event_class("panstart")
 ], PanStart);
 exports.PanStart = PanStart;
 var PanEnd = (function (_super) {
-    tslib_1.__extends(PanEnd, _super);
+    __extends(PanEnd, _super);
     function PanEnd() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return PanEnd;
 }(PointEvent));
-PanEnd = tslib_1.__decorate([
+PanEnd = __decorate([
     register_event_class("panend")
 ], PanEnd);
 exports.PanEnd = PanEnd;
 var PinchStart = (function (_super) {
-    tslib_1.__extends(PinchStart, _super);
+    __extends(PinchStart, _super);
     function PinchStart() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return PinchStart;
 }(PointEvent));
-PinchStart = tslib_1.__decorate([
+PinchStart = __decorate([
     register_event_class("pinchstart")
 ], PinchStart);
 exports.PinchStart = PinchStart;
 var PinchEnd = (function (_super) {
-    tslib_1.__extends(PinchEnd, _super);
+    __extends(PinchEnd, _super);
     function PinchEnd() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return PinchEnd;
 }(PointEvent));
-PinchEnd = tslib_1.__decorate([
+PinchEnd = __decorate([
     register_event_class("pinchend")
 ], PinchEnd);
 exports.PinchEnd = PinchEnd;
 
-},{"./logging":"core/logging","./util/object":"core/util/object","tslib":"tslib/tslib"}],"core/build_views":[function(require,module,exports){
+},{"./logging":"core/logging","./util/object":"core/util/object"}],"core/build_views":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var array_1 = require("./util/array");
@@ -1992,7 +2007,6 @@ exports.HasProps = (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dist_to_segment_squared, nullreturner, sqr;
 var array_1 = require("./util/array");
-var object_1 = require("./util/object");
 exports.point_in_poly = function (x, y, px, py) {
     var i, inside, j, ref, x1, x2, y1, y2;
     inside = false;
@@ -2045,12 +2059,6 @@ exports.HitTestResult = (function () {
     });
     HitTestResult.prototype.is_empty = function () {
         return this._0d.indices.length === 0 && this._1d.indices.length === 0;
-    };
-    HitTestResult.prototype.update_through_union = function (other) {
-        this['0d'].indices = array_1.union(other['0d'].indices, this['0d'].indices);
-        this['0d'].glyph = other['0d'].glyph || this['0d'].glyph;
-        this['1d'].indices = array_1.union(other['1d'].indices, this['1d'].indices);
-        return this['2d'].indices = object_1.merge(other['2d'].indices, this['2d'].indices);
     };
     return HitTestResult;
 })();
@@ -2150,7 +2158,7 @@ exports.check_2_segments_intersect = function (l0_x0, l0_y0, l0_x1, l0_y1, l1_x0
     }
 };
 
-},{"./util/array":"core/util/array","./util/object":"core/util/object"}],"core/layout/layout_canvas":[function(require,module,exports){
+},{"./util/array":"core/util/array"}],"core/layout/layout_canvas":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -2159,6 +2167,7 @@ var extend = function (child, parent) { for (var key in parent) {
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var solver_1 = require("./solver");
 var model_1 = require("../../model");
+var p = require("../properties");
 exports.LayoutCanvas = (function (superClass) {
     extend(LayoutCanvas, superClass);
     function LayoutCanvas() {
@@ -2174,6 +2183,29 @@ exports.LayoutCanvas = (function (superClass) {
         this._right = new solver_1.Variable("right " + this.id);
         return this._bottom = new solver_1.Variable("bottom " + this.id);
     };
+    LayoutCanvas.getters({
+        height: function () {
+            return this._height.value();
+        },
+        width: function () {
+            return this._width.value();
+        },
+        right: function () {
+            return this._right.value();
+        },
+        left: function () {
+            return this._left.value();
+        },
+        top: function () {
+            return this._top.value();
+        },
+        bottom: function () {
+            return this._bottom.value();
+        }
+    });
+    LayoutCanvas.internal({
+        layout_location: [p.Any]
+    });
     LayoutCanvas.prototype.get_edit_variables = function () {
         var editables;
         editables = [];
@@ -2201,7 +2233,7 @@ exports.LayoutCanvas = (function (superClass) {
     return LayoutCanvas;
 })(model_1.Model);
 
-},{"../../model":"model","./solver":"core/layout/solver"}],"core/layout/side_panel":[function(require,module,exports){
+},{"../../model":"model","../properties":"core/properties","./solver":"core/layout/solver"}],"core/layout/side_panel":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ALPHABETIC, BOTTOM, CENTER, HANGING, LEFT, MIDDLE, RIGHT, TOP, _align_lookup, _align_lookup_negative, _align_lookup_positive, _angle_lookup, _baseline_lookup, pi2, extend = function (child, parent) { for (var key in parent) {
@@ -3262,41 +3294,26 @@ exports.SelectionManager = (function (superClass) {
     });
     SelectionManager.prototype.initialize = function (attrs, options) {
         SelectionManager.__super__.initialize.call(this, attrs, options);
-        this.selector = new selector_1.Selector();
+        this.selectors = {};
         this.inspectors = {};
         return this.last_inspection_was_empty = {};
     };
-    SelectionManager.prototype.select = function (tool, renderer_views, geometry, final, append) {
-        var i, indices, indices_other, indices_renderers, j, len, len1, r, renderer_view, source;
+    SelectionManager.prototype.select = function (tool, renderer_view, geometry, final, append) {
+        var indices, selector, source;
         if (append == null) {
             append = false;
         }
         source = this.source;
-        if (source !== renderer_views[0].model.data_source) {
+        if (source !== renderer_view.model.data_source) {
             logging_1.logger.warn('select called with mis-matched data sources');
         }
-        indices_renderers = (function () {
-            var i, len, results;
-            results = [];
-            for (i = 0, len = renderer_views.length; i < len; i++) {
-                r = renderer_views[i];
-                results.push(r.hit_test(geometry));
-            }
-            return results;
-        })();
-        if (indices_renderers != null) {
-            indices = indices_renderers[0];
-            for (i = 0, len = indices_renderers.length; i < len; i++) {
-                indices_other = indices_renderers[i];
-                indices.update_through_union(indices_other);
-            }
-            this.selector.update(indices, final, append);
-            this.source.selected = this.selector.indices;
+        indices = renderer_view.hit_test(geometry);
+        if (indices != null) {
+            selector = this._get_selector(renderer_view);
+            selector.update(indices, final, append);
+            this.source.selected = selector.indices;
             source.trigger('select');
-            for (j = 0, len1 = renderer_views.length; j < len1; j++) {
-                renderer_view = renderer_views[j];
-                source.trigger('select-' + renderer_view.model.id);
-            }
+            source.trigger('select-' + renderer_view.model.id);
             return !indices.is_empty();
         }
         else {
@@ -3342,18 +3359,35 @@ exports.SelectionManager = (function (superClass) {
         }
     };
     SelectionManager.prototype.clear = function (rview) {
-        this.selector.clear();
-        return this.source.selected = hittest.create_hit_test_result();
-    };
-    SelectionManager.prototype._get_inspector = function (rview) {
-        var id;
-        id = rview.model.id;
-        if (this.inspectors[id] != null) {
-            return this.inspectors[id];
+        var k, ref, s, selector;
+        if (rview != null) {
+            selector = this._get_selector(rview);
+            selector.clear();
         }
         else {
-            return this.inspectors[id] = new selector_1.Selector();
+            ref = this.selectors;
+            for (k in ref) {
+                s = ref[k];
+                s.clear();
+            }
         }
+        return this.source.selected = hittest.create_hit_test_result();
+    };
+    SelectionManager.prototype._get_selector_from = function (rview, selectors) {
+        var id;
+        id = rview.model.id;
+        if (selectors[id] != null) {
+            return selectors[id];
+        }
+        else {
+            return selectors[id] = new selector_1.Selector();
+        }
+    };
+    SelectionManager.prototype._get_selector = function (rview) {
+        return this._get_selector_from(rview, this.selectors);
+    };
+    SelectionManager.prototype._get_inspector = function (rview) {
+        return this._get_selector_from(rview, this.inspectors);
     };
     return SelectionManager;
 })(has_props_1.HasProps);
@@ -3361,13 +3395,26 @@ exports.SelectionManager = (function (superClass) {
 },{"./has_props":"core/has_props","./hittest":"core/hittest","./logging":"core/logging","./properties":"core/properties","./selector":"core/selector"}],"core/selector":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var extend = function (child, parent) { for (var key in parent) {
+var merge, extend = function (child, parent) { for (var key in parent) {
     if (hasProp.call(parent, key))
         child[key] = parent[key];
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var has_props_1 = require("./has_props");
 var hittest = require("./hittest");
 var p = require("./properties");
+var array_1 = require("./util/array");
+merge = function (obj1, obj2) {
+    var arr1, arr2, i, key, keys, len, result;
+    result = {};
+    keys = array_1.concat(Object.keys(obj1), Object.keys(obj2));
+    for (i = 0, len = keys.length; i < len; i++) {
+        key = keys[i];
+        arr1 = obj1[key] || [];
+        arr2 = obj2[key] || [];
+        result[key] = array_1.union(arr1, arr2);
+    }
+    return result;
+};
 exports.Selector = (function (superClass) {
     extend(Selector, superClass);
     function Selector() {
@@ -3385,7 +3432,10 @@ exports.Selector = (function (superClass) {
             silent: silent
         });
         if (append) {
-            indices.update_through_union(this.indices);
+            indices['0d'].indices = array_1.union(this.indices['0d'].indices, indices['0d'].indices);
+            indices['0d'].glyph = this.indices['0d'].glyph || indices['0d'].glyph;
+            indices['1d'].indices = array_1.union(this.indices['1d'].indices, indices['1d'].indices);
+            indices['2d'].indices = merge(this.indices['2d'].indices, indices['2d'].indices);
         }
         return this.setv('indices', indices, {
             silent: silent
@@ -3408,7 +3458,7 @@ exports.Selector = (function (superClass) {
     return Selector;
 })(has_props_1.HasProps);
 
-},{"./has_props":"core/has_props","./hittest":"core/hittest","./properties":"core/properties"}],"core/ui_events":[function(require,module,exports){
+},{"./has_props":"core/has_props","./hittest":"core/hittest","./properties":"core/properties","./util/array":"core/util/array"}],"core/ui_events":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend1 = function (child, parent) { for (var key in parent) {
@@ -4809,7 +4859,6 @@ exports.clamp = clamp;
 },{}],"core/util/object":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var array_1 = require("./array");
 exports.keys = Object.keys;
 function values(object) {
     var keys = Object.keys(object);
@@ -4841,27 +4890,12 @@ function clone(obj) {
     return extend({}, obj);
 }
 exports.clone = clone;
-function merge(obj1, obj2) {
-    /*
-     * Returns an object with the array values for obj1 and obj2 unioned by key.
-     */
-    var result = Object.create(null);
-    var keys = array_1.concat([Object.keys(obj1), Object.keys(obj2)]);
-    for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
-        var key = keys_1[_i];
-        var arr1 = obj1.hasOwnProperty(key) ? obj1[key] : [];
-        var arr2 = obj2.hasOwnProperty(key) ? obj2[key] : [];
-        result[key] = array_1.union(arr1, arr2);
-    }
-    return result;
-}
-exports.merge = merge;
 function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 exports.isEmpty = isEmpty;
 
-},{"./array":"core/util/array"}],"core/util/proj4":[function(require,module,exports){
+},{}],"core/util/proj4":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var proj4 = require("proj4/lib/core");
@@ -5102,8 +5136,17 @@ exports.encode_column_data = function (data, shapes) {
 
 },{"./types":"core/util/types"}],"core/util/spatial":[function(require,module,exports){
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = require("tslib");
 /// <reference types="@types/rbush" />
 var rbush = require("rbush");
 var SpatialIndex = (function () {
@@ -5113,7 +5156,7 @@ var SpatialIndex = (function () {
 }());
 exports.SpatialIndex = SpatialIndex;
 var RBush = (function (_super) {
-    tslib_1.__extends(RBush, _super);
+    __extends(RBush, _super);
     function RBush(points) {
         var _this = _super.call(this) || this;
         _this.index = rbush();
@@ -5144,7 +5187,7 @@ var RBush = (function (_super) {
 }(SpatialIndex));
 exports.RBush = RBush;
 
-},{"rbush":"rbush","tslib":"tslib/tslib"}],"core/util/string":[function(require,module,exports){
+},{"rbush":"rbush"}],"core/util/string":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function startsWith(str, searchString, position) {
@@ -5585,13 +5628,13 @@ exports.scale_highlow = function (range, factor, center) {
     x1 = high - (high - x) * factor;
     return [x0, x1];
 };
-exports.get_info = function (scales, arg) {
-    var end, info, name, ref, scale, start, x0, x1;
+exports.get_info = function (mappers, arg) {
+    var end, info, mapper, name, ref, start, x0, x1;
     x0 = arg[0], x1 = arg[1];
     info = {};
-    for (name in scales) {
-        scale = scales[name];
-        ref = scale.v_invert([x0, x1], true), start = ref[0], end = ref[1];
+    for (name in mappers) {
+        mapper = mappers[name];
+        ref = mapper.v_map_from_target([x0, x1], true), start = ref[0], end = ref[1];
         info[name] = {
             start: start,
             end: end
@@ -5614,10 +5657,10 @@ exports.scale_range = function (frame, factor, h_axis, v_axis, center) {
     factor = math_1.clamp(factor, -0.9, 0.9);
     hfactor = h_axis ? factor : 0;
     ref = exports.scale_highlow(frame.h_range, hfactor, center != null ? center.x : void 0), vx0 = ref[0], vx1 = ref[1];
-    xrs = exports.get_info(frame.xscales, [vx0, vx1]);
+    xrs = exports.get_info(frame.x_mappers, [vx0, vx1]);
     vfactor = v_axis ? factor : 0;
     ref1 = exports.scale_highlow(frame.v_range, vfactor, center != null ? center.y : void 0), vy0 = ref1[0], vy1 = ref1[1];
-    yrs = exports.get_info(frame.yscales, [vy0, vy1]);
+    yrs = exports.get_info(frame.y_mappers, [vy0, vy1]);
     return {
         xrs: xrs,
         yrs: yrs,
@@ -7135,8 +7178,8 @@ exports.AnnotationView = (function (superClass) {
     }
     AnnotationView.prototype._get_panel_offset = function () {
         var x, y;
-        x = this.model.panel._left.value;
-        y = this.model.panel._bottom.value;
+        x = this.model.panel._left._value;
+        y = this.model.panel._bottom._value;
         return {
             x: x,
             y: -y
@@ -7193,6 +7236,8 @@ exports.ArrowView = (function (superClass) {
             this.model.source = new column_data_source_1.ColumnDataSource();
         }
         this.canvas = this.plot_model.canvas;
+        this.xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        this.ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
         return this.set_data(this.model.source);
     };
     ArrowView.prototype.bind_bokeh_events = function () {
@@ -7241,7 +7286,7 @@ exports.ArrowView = (function (superClass) {
             this._arrow_head(ctx, "render", this.model.start, this.end, this.start);
         }
         ctx.beginPath();
-        ctx.rect(0, 0, this.canvas._width.value, this.canvas._height.value);
+        ctx.rect(0, 0, this.canvas.width, this.canvas.height);
         if (this.model.end != null) {
             this._arrow_head(ctx, "clip", this.model.end, this.start, this.end);
         }
@@ -7499,7 +7544,7 @@ exports.BoxAnnotationView = (function (superClass) {
         }
     };
     BoxAnnotationView.prototype.render = function () {
-        var canvas, frame, sbottom, sleft, sright, stop, xscale, yscale;
+        var sbottom, sleft, sright, stop;
         if (!this.model.visible && this.model.render_mode === 'css') {
             dom_1.hide(this.el);
         }
@@ -7510,14 +7555,14 @@ exports.BoxAnnotationView = (function (superClass) {
             dom_1.hide(this.el);
             return null;
         }
-        frame = this.plot_model.frame;
-        canvas = this.plot_model.canvas;
-        xscale = this.plot_view.frame.xscales[this.model.x_range_name];
-        yscale = this.plot_view.frame.yscales[this.model.y_range_name];
-        sleft = canvas.vx_to_sx(this._calc_dim(this.model.left, this.model.left_units, xscale, frame.h_range.start));
-        sright = canvas.vx_to_sx(this._calc_dim(this.model.right, this.model.right_units, xscale, frame.h_range.end));
-        sbottom = canvas.vy_to_sy(this._calc_dim(this.model.bottom, this.model.bottom_units, yscale, frame.v_range.start));
-        stop = canvas.vy_to_sy(this._calc_dim(this.model.top, this.model.top_units, yscale, frame.v_range.end));
+        this.frame = this.plot_model.frame;
+        this.canvas = this.plot_model.canvas;
+        this.xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        this.ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
+        sleft = this.canvas.vx_to_sx(this._calc_dim(this.model.left, this.model.left_units, this.xmapper, this.frame.h_range.start));
+        sright = this.canvas.vx_to_sx(this._calc_dim(this.model.right, this.model.right_units, this.xmapper, this.frame.h_range.end));
+        sbottom = this.canvas.vy_to_sy(this._calc_dim(this.model.bottom, this.model.bottom_units, this.ymapper, this.frame.v_range.start));
+        stop = this.canvas.vy_to_sy(this._calc_dim(this.model.top, this.model.top_units, this.ymapper, this.frame.v_range.end));
         if (this.model.render_mode === 'css') {
             return this._css_box(sleft, sright, sbottom, stop);
         }
@@ -7558,11 +7603,11 @@ exports.BoxAnnotationView = (function (superClass) {
         ctx.stroke();
         return ctx.restore();
     };
-    BoxAnnotationView.prototype._calc_dim = function (dim, dim_units, scale, frame_extrema) {
+    BoxAnnotationView.prototype._calc_dim = function (dim, dim_units, mapper, frame_extrema) {
         var vdim;
         if (dim != null) {
             if (dim_units === 'data') {
-                vdim = scale.compute(dim);
+                vdim = mapper.map_to_target(dim);
             }
             else {
                 vdim = dim;
@@ -7629,8 +7674,8 @@ var annotation_1 = require("./annotation");
 var basic_ticker_1 = require("../tickers/basic_ticker");
 var basic_tick_formatter_1 = require("../formatters/basic_tick_formatter");
 var linear_color_mapper_1 = require("../mappers/linear_color_mapper");
-var linear_scale_1 = require("../scales/linear_scale");
-var log_scale_1 = require("../scales/log_scale");
+var linear_mapper_1 = require("../mappers/linear_mapper");
+var log_mapper_1 = require("../mappers/log_mapper");
 var range1d_1 = require("../ranges/range1d");
 var p = require("core/properties");
 var text_util = require("core/util/text");
@@ -7672,8 +7717,8 @@ exports.ColorBarView = (function (superClass) {
     };
     ColorBarView.prototype._get_panel_offset = function () {
         var x, y;
-        x = this.model.panel._left.value;
-        y = this.model.panel._top.value;
+        x = this.model.panel._left._value;
+        y = this.model.panel._top._value;
         return {
             x: x,
             y: -y
@@ -7973,11 +8018,11 @@ exports.ColorBarView = (function (superClass) {
         switch (panel.side) {
             case "left":
             case "right":
-                yoff = Math.abs(panel._top.value - frame._top.value);
+                yoff = Math.abs(panel.top - frame.top);
                 break;
             case "above":
             case "below":
-                xoff = Math.abs(frame._left.value);
+                xoff = Math.abs(frame.left);
         }
         return {
             x: xoff,
@@ -8097,8 +8142,8 @@ exports.ColorBar = (function (superClass) {
           * The parallel frame dimension * 0.80
          */
         var frame_height, frame_width, height, title_extent, width;
-        frame_height = this.plot.plot_canvas.frame._height.value;
-        frame_width = this.plot.plot_canvas.frame._width.value;
+        frame_height = this.plot.plot_canvas.frame.height;
+        frame_width = this.plot.plot_canvas.frame.width;
         title_extent = this._title_extent();
         switch (this.orientation) {
             case "vertical":
@@ -8136,18 +8181,18 @@ exports.ColorBar = (function (superClass) {
             "width": width
         };
     };
-    ColorBar.prototype._tick_coordinate_scale = function (scale_length) {
+    ColorBar.prototype._tick_coordinate_mapper = function (scale_length) {
         /*
-        Creates and returns a scale instance that maps the `color_mapper` range
+        Creates and returns a mapper instance that maps the `color_mapper` range
         (low to high) to a screen space range equal to the length of the ColorBar's
-        scale image. The scale is used to calculate the tick coordinates in screen
+        scale image. The mapper is used to calculate the tick coordinates in screen
         coordinates for plotting purposes.
         
-        Note: the type of color_mapper has to match the type of scale (i.e.
-        a LinearColorMapper will require a corresponding LinearScale instance).
+        Note: the type of color_mapper has to match the type of mapper (i.e.
+        a LinearColorMapper will require a corresponding LinearMapper instance).
          */
-        var ranges, scale;
-        ranges = {
+        var mapper, mapping;
+        mapping = {
             'source_range': new range1d_1.Range1d({
                 start: this.color_mapper.low,
                 end: this.color_mapper.high
@@ -8159,15 +8204,15 @@ exports.ColorBar = (function (superClass) {
         };
         switch (this.color_mapper.type) {
             case "LinearColorMapper":
-                scale = new linear_scale_1.LinearScale(ranges);
+                mapper = new linear_mapper_1.LinearMapper(mapping);
                 break;
             case "LogColorMapper":
-                scale = new log_scale_1.LogScale(ranges);
+                mapper = new log_mapper_1.LogMapper(mapping);
         }
-        return scale;
+        return mapper;
     };
     ColorBar.prototype._tick_coordinates = function () {
-        var coord, end, i, ii, image_dimensions, j, k, l, major_coords, major_labels, majors, minor_coords, minors, ref, ref1, ref2, ref3, scale, scale_length, start, ticks;
+        var coord, end, i, ii, image_dimensions, j, k, l, major_coords, major_labels, majors, mapper, minor_coords, minors, ref, ref1, ref2, ref3, scale_length, start, ticks;
         image_dimensions = this._computed_image_dimensions();
         switch (this.orientation) {
             case "vertical":
@@ -8176,7 +8221,7 @@ exports.ColorBar = (function (superClass) {
             case "horizontal":
                 scale_length = image_dimensions.width;
         }
-        scale = this._tick_coordinate_scale(scale_length);
+        mapper = this._tick_coordinate_mapper(scale_length);
         ref = this._normals(), i = ref[0], j = ref[1];
         ref1 = [this.color_mapper.low, this.color_mapper.high], start = ref1[0], end = ref1[1];
         ticks = this.ticker.get_ticks(start, end, null, null, this.ticker.desired_num_ticks);
@@ -8199,8 +8244,8 @@ exports.ColorBar = (function (superClass) {
             minor_coords[j].push(0);
         }
         major_labels = major_coords[i].slice(0);
-        major_coords[i] = scale.v_compute(major_coords[i]);
-        minor_coords[i] = scale.v_compute(minor_coords[i]);
+        major_coords[i] = mapper.v_map_to_target(major_coords[i]);
+        minor_coords[i] = mapper.v_map_to_target(minor_coords[i]);
         if (this.orientation === 'vertical') {
             major_coords[i] = new Float64Array((function () {
                 var len, m, ref4, results;
@@ -8232,7 +8277,7 @@ exports.ColorBar = (function (superClass) {
     return ColorBar;
 })(annotation_1.Annotation);
 
-},{"../formatters/basic_tick_formatter":"models/formatters/basic_tick_formatter","../mappers/linear_color_mapper":"models/mappers/linear_color_mapper","../ranges/range1d":"models/ranges/range1d","../scales/linear_scale":"models/scales/linear_scale","../scales/log_scale":"models/scales/log_scale","../tickers/basic_ticker":"models/tickers/basic_ticker","./annotation":"models/annotations/annotation","core/properties":"core/properties","core/util/array":"core/util/array","core/util/object":"core/util/object","core/util/text":"core/util/text","core/util/types":"core/util/types"}],"models/annotations/index":[function(require,module,exports){
+},{"../formatters/basic_tick_formatter":"models/formatters/basic_tick_formatter","../mappers/linear_color_mapper":"models/mappers/linear_color_mapper","../mappers/linear_mapper":"models/mappers/linear_mapper","../mappers/log_mapper":"models/mappers/log_mapper","../ranges/range1d":"models/ranges/range1d","../tickers/basic_ticker":"models/tickers/basic_ticker","./annotation":"models/annotations/annotation","core/properties":"core/properties","core/util/array":"core/util/array","core/util/object":"core/util/object","core/util/text":"core/util/text","core/util/types":"core/util/types"}],"models/annotations/index":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var annotation_1 = require("./annotation");
@@ -8288,6 +8333,8 @@ exports.LabelView = (function (superClass) {
     LabelView.prototype.initialize = function (options) {
         LabelView.__super__.initialize.call(this, options);
         this.canvas = this.plot_model.canvas;
+        this.xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        this.ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
         return this.visuals.warm_cache(null);
     };
     LabelView.prototype._get_size = function () {
@@ -8305,15 +8352,13 @@ exports.LabelView = (function (superClass) {
         }
     };
     LabelView.prototype.render = function () {
-        var angle, ctx, panel_offset, sx, sy, vx, vy, xscale, yscale;
+        var angle, ctx, panel_offset, sx, sy, vx, vy;
         if (!this.model.visible && this.model.render_mode === 'css') {
             dom_1.hide(this.el);
         }
         if (!this.model.visible) {
             return;
         }
-        xscale = this.plot_view.frame.xscales[this.model.x_range_name];
-        yscale = this.plot_view.frame.yscales[this.model.y_range_name];
         ctx = this.plot_view.canvas_view.ctx;
         switch (this.model.angle_units) {
             case "rad":
@@ -8323,14 +8368,14 @@ exports.LabelView = (function (superClass) {
                 angle = -1 * this.model.angle * Math.PI / 180.0;
         }
         if (this.model.x_units === "data") {
-            vx = xscale.compute(this.model.x);
+            vx = this.xmapper.map_to_target(this.model.x);
         }
         else {
             vx = this.model.x;
         }
         sx = this.canvas.vx_to_sx(vx);
         if (this.model.y_units === "data") {
-            vy = yscale.compute(this.model.y);
+            vy = this.ymapper.map_to_target(this.model.y);
         }
         else {
             vy = this.model.y;
@@ -8399,6 +8444,8 @@ exports.LabelSetView = (function (superClass) {
     LabelSetView.prototype.initialize = function (options) {
         var i, j, ref, results;
         LabelSetView.__super__.initialize.call(this, options);
+        this.xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        this.ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
         this.set_data(this.model.source);
         if (this.model.render_mode === 'css') {
             results = [];
@@ -8441,18 +8488,16 @@ exports.LabelSetView = (function (superClass) {
         return this.visuals.warm_cache(source);
     };
     LabelSetView.prototype._map_data = function () {
-        var sx, sy, vx, vy, xscale, yscale;
-        xscale = this.plot_view.frame.xscales[this.model.x_range_name];
-        yscale = this.plot_view.frame.yscales[this.model.y_range_name];
+        var sx, sy, vx, vy;
         if (this.model.x_units === "data") {
-            vx = xscale.v_compute(this._x);
+            vx = this.xmapper.v_map_to_target(this._x);
         }
         else {
             vx = this._x.slice(0);
         }
         sx = this.canvas.v_vx_to_sx(vx);
         if (this.model.y_units === "data") {
-            vy = yscale.v_compute(this._y);
+            vy = this.ymapper.v_map_to_target(this._y);
         }
         else {
             vy = this._y.slice(0);
@@ -8670,12 +8715,12 @@ exports.LegendView = (function (superClass) {
         }
         panel = (ref1 = this.model.panel) != null ? ref1 : this.plot_view.frame;
         h_range = {
-            start: panel._left.value,
-            end: panel._right.value
+            start: panel.left,
+            end: panel.right
         };
         v_range = {
-            start: panel._bottom.value,
-            end: panel._top.value
+            start: panel.bottom,
+            end: panel.top
         };
         location = this.model.location;
         if (types_1.isString(location)) {
@@ -9226,7 +9271,7 @@ exports.SpanView = (function (superClass) {
         return this._draw_span();
     };
     SpanView.prototype._draw_span = function () {
-        var canvas, ctx, frame, height, loc, sleft, stop, width, xscale, yscale;
+        var canvas, ctx, frame, height, loc, sleft, stop, width, xmapper, ymapper;
         if (this.model.for_hover) {
             loc = this.model.computed_location;
         }
@@ -9239,19 +9284,19 @@ exports.SpanView = (function (superClass) {
         }
         frame = this.plot_model.frame;
         canvas = this.plot_model.canvas;
-        xscale = this.plot_view.frame.xscales[this.model.x_range_name];
-        yscale = this.plot_view.frame.yscales[this.model.y_range_name];
+        xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
         if (this.model.dimension === 'width') {
-            stop = canvas.vy_to_sy(this._calc_dim(loc, yscale));
-            sleft = canvas.vx_to_sx(frame._left.value);
-            width = frame._width.value;
+            stop = canvas.vy_to_sy(this._calc_dim(loc, ymapper));
+            sleft = canvas.vx_to_sx(frame.left);
+            width = frame.width;
             height = this.model.properties.line_width.value();
         }
         else {
-            stop = canvas.vy_to_sy(frame._top.value);
-            sleft = canvas.vx_to_sx(this._calc_dim(loc, xscale));
+            stop = canvas.vy_to_sy(frame.top);
+            sleft = canvas.vx_to_sx(this._calc_dim(loc, xmapper));
             width = this.model.properties.line_width.value();
-            height = frame._height.value;
+            height = frame.height;
         }
         if (this.model.render_mode === "css") {
             this.el.style.top = stop + "px";
@@ -9279,10 +9324,10 @@ exports.SpanView = (function (superClass) {
             return ctx.restore();
         }
     };
-    SpanView.prototype._calc_dim = function (location, scale) {
+    SpanView.prototype._calc_dim = function (location, mapper) {
         var vdim;
         if (this.model.location_units === 'data') {
-            vdim = scale.compute(location);
+            vdim = mapper.map_to_target(location);
         }
         else {
             vdim = location;
@@ -9516,12 +9561,12 @@ exports.TitleView = (function (superClass) {
                 vy = this._get_text_location(this.model.align, this.frame.v_range) + this.model.offset;
                 break;
             case 'right':
-                vx = this.canvas._right.value - 1;
-                vy = this.canvas._height.value - this._get_text_location(this.model.align, this.frame.v_range) - this.model.offset;
+                vx = this.canvas.right - 1;
+                vy = this.canvas.height - this._get_text_location(this.model.align, this.frame.v_range) - this.model.offset;
                 break;
             case 'above':
                 vx = this._get_text_location(this.model.align, this.frame.h_range) + this.model.offset;
-                vy = this.canvas._top.value - 10;
+                vy = this.canvas.top - 10;
                 break;
             case 'below':
                 vx = this._get_text_location(this.model.align, this.frame.h_range) + this.model.offset;
@@ -9669,8 +9714,8 @@ exports.TooltipView = (function (superClass) {
         attachment = this.model.attachment;
         switch (attachment) {
             case "horizontal":
-                width = this.plot_view.frame._width.value;
-                left = this.plot_view.frame._left.value;
+                width = this.plot_view.frame.width;
+                left = this.plot_view.frame.left;
                 if (vx - left < width / 2) {
                     side = 'right';
                 }
@@ -9679,8 +9724,8 @@ exports.TooltipView = (function (superClass) {
                 }
                 break;
             case "vertical":
-                height = this.plot_view.frame._height.value;
-                bottom = this.plot_view.frame._bottom.value;
+                height = this.plot_view.frame.height;
+                bottom = this.plot_view.frame.bottom;
                 if (vy - bottom < height / 2) {
                     side = 'below';
                 }
@@ -10097,16 +10142,16 @@ exports.Axis = (function (superClass) {
         frame = this.plot.plot_canvas.frame;
         switch (side) {
             case "below":
-                yoff = Math.abs(this.panel._top.value - frame._bottom.value);
+                yoff = Math.abs(this.panel.top - frame.bottom);
                 break;
             case "above":
-                yoff = Math.abs(this.panel._bottom.value - frame._top.value);
+                yoff = Math.abs(this.panel.bottom - frame.top);
                 break;
             case "right":
-                xoff = Math.abs(this.panel._left.value - frame._right.value);
+                xoff = Math.abs(this.panel.left - frame.right);
                 break;
             case "left":
-                xoff = Math.abs(this.panel._right.value - frame._left.value);
+                xoff = Math.abs(this.panel.right - frame.left);
         }
         return [xoff, yoff];
     };
@@ -10553,8 +10598,8 @@ exports.CanvasView = (function (superClass) {
     };
     CanvasView.prototype.prepare_canvas = function () {
         var height, pixel_ratio, width;
-        width = this.model._width.value;
-        height = this.model._height.value;
+        width = this.model._width._value;
+        height = this.model._height._value;
         this.el.style.width = width + "px";
         this.el.style.height = height + "px";
         pixel_ratio = canvas_1.get_scale_ratio(this.ctx, this.model.use_hidpi);
@@ -10627,7 +10672,7 @@ exports.Canvas = (function (superClass) {
         return x;
     };
     Canvas.prototype.vy_to_sy = function (y) {
-        return this._height.value - (y + 1);
+        return this._height._value - (y + 1);
     };
     Canvas.prototype.v_vx_to_sx = function (xx) {
         return new Float64Array(xx);
@@ -10635,7 +10680,7 @@ exports.Canvas = (function (superClass) {
     Canvas.prototype.v_vy_to_sy = function (yy) {
         var _yy, height, idx, j, len, y;
         _yy = new Float64Array(yy.length);
-        height = this._height.value;
+        height = this._height._value;
         for (idx = j = 0, len = yy.length; j < len; idx = ++j) {
             y = yy[idx];
             _yy[idx] = height - (y + 1);
@@ -10646,7 +10691,7 @@ exports.Canvas = (function (superClass) {
         return x;
     };
     Canvas.prototype.sy_to_vy = function (y) {
-        return this._height.value - (y + 1);
+        return this._height._value - (y + 1);
     };
     Canvas.prototype.v_sx_to_vx = function (xx) {
         return new Float64Array(xx);
@@ -10654,7 +10699,7 @@ exports.Canvas = (function (superClass) {
     Canvas.prototype.v_sy_to_vy = function (yy) {
         var _yy, height, idx, j, len, y;
         _yy = new Float64Array(yy.length);
-        height = this._height.value;
+        height = this._height._value;
         for (idx = j = 0, len = yy.length; j < len; idx = ++j) {
             y = yy[idx];
             _yy[idx] = height - (y + 1);
@@ -10674,9 +10719,9 @@ var extend = function (child, parent) { for (var key in parent) {
     if (hasProp.call(parent, key))
         child[key] = parent[key];
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
-var categorical_scale_1 = require("../scales/categorical_scale");
-var linear_scale_1 = require("../scales/linear_scale");
-var log_scale_1 = require("../scales/log_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
+var linear_mapper_1 = require("../mappers/linear_mapper");
+var log_mapper_1 = require("../mappers/log_mapper");
 var range1d_1 = require("../ranges/range1d");
 var solver_1 = require("core/layout/solver");
 var layout_canvas_1 = require("core/layout/layout_canvas");
@@ -10691,16 +10736,16 @@ exports.CartesianFrame = (function (superClass) {
     CartesianFrame.prototype.initialize = function (attrs, options) {
         CartesianFrame.__super__.initialize.call(this, attrs, options);
         this.panel = this;
-        this._configure_scales();
+        this._configure_mappers();
         this.listenTo(this, 'change', (function (_this) {
             return function () {
-                return _this._configure_scales();
+                return _this._configure_mappers();
             };
         })(this));
         return null;
     };
     CartesianFrame.prototype.contains = function (vx, vy) {
-        return vx >= this._left.value && vx <= this._right.value && vy >= this._bottom.value && vy <= this._top.value;
+        return vx >= this.left && vx <= this.right && vy >= this.bottom && vy <= this.top;
     };
     CartesianFrame.prototype.map_to_screen = function (x, y, canvas, x_name, y_name) {
         var sx, sy, vx, vy;
@@ -10710,9 +10755,9 @@ exports.CartesianFrame = (function (superClass) {
         if (y_name == null) {
             y_name = 'default';
         }
-        vx = this.xscales[x_name].v_compute(x);
+        vx = this.x_mappers[x_name].v_map_to_target(x);
         sx = canvas.v_vx_to_sx(vx);
-        vy = this.yscales[y_name].v_compute(y);
+        vy = this.y_mappers[y_name].v_map_to_target(y);
         sy = canvas.v_vy_to_sy(vy);
         return [sx, sy];
     };
@@ -10728,63 +10773,63 @@ exports.CartesianFrame = (function (superClass) {
         }
         return ranges;
     };
-    CartesianFrame.prototype._get_scales = function (scale_type_name, ranges, frame_range) {
-        var name, range, scale_type, scales;
-        scales = {};
+    CartesianFrame.prototype._get_mappers = function (mapper_type, ranges, frame_range) {
+        var mapper_model, mappers, name, range;
+        mappers = {};
         for (name in ranges) {
             range = ranges[name];
             if (range.type === "Range1d" || range.type === "DataRange1d") {
-                if (scale_type_name === "log") {
-                    scale_type = log_scale_1.LogScale;
+                if (mapper_type === "log") {
+                    mapper_model = log_mapper_1.LogMapper;
                 }
                 else {
-                    scale_type = linear_scale_1.LinearScale;
+                    mapper_model = linear_mapper_1.LinearMapper;
                 }
-                range.scale_hint = scale_type_name;
+                range.mapper_hint = mapper_type;
             }
             else if (range.type === "FactorRange") {
-                scale_type = categorical_scale_1.CategoricalScale;
+                mapper_model = categorical_mapper_1.CategoricalMapper;
             }
             else {
                 logging_1.logger.warn("unknown range type for range '" + name + "': " + range);
                 return null;
             }
-            scales[name] = new scale_type({
+            mappers[name] = new mapper_model({
                 source_range: range,
                 target_range: frame_range
             });
         }
-        return scales;
+        return mappers;
     };
     CartesianFrame.prototype._configure_frame_ranges = function () {
         this._h_range = new range1d_1.Range1d({
-            start: this._left.value,
-            end: this._left.value + this._width.value
+            start: this.left,
+            end: this.left + this.width
         });
         return this._v_range = new range1d_1.Range1d({
-            start: this._bottom.value,
-            end: this._bottom.value + this._height.value
+            start: this.bottom,
+            end: this.bottom + this.height
         });
     };
-    CartesianFrame.prototype._configure_scales = function () {
+    CartesianFrame.prototype._configure_mappers = function () {
         this._configure_frame_ranges();
         this._x_ranges = this._get_ranges(this.x_range, this.extra_x_ranges);
         this._y_ranges = this._get_ranges(this.y_range, this.extra_y_ranges);
-        this._xscales = this._get_scales(this.x_mapper_type, this._x_ranges, this._h_range);
-        return this._yscales = this._get_scales(this.y_mapper_type, this._y_ranges, this._v_range);
+        this._x_mappers = this._get_mappers(this.x_mapper_type, this._x_ranges, this._h_range);
+        return this._y_mappers = this._get_mappers(this.y_mapper_type, this._y_ranges, this._v_range);
     };
-    CartesianFrame.prototype._update_scales = function () {
-        var name, ref, ref1, scale;
+    CartesianFrame.prototype._update_mappers = function () {
+        var mapper, name, ref, ref1;
         this._configure_frame_ranges();
-        ref = this._xscales;
+        ref = this._x_mappers;
         for (name in ref) {
-            scale = ref[name];
-            scale.target_range = this._h_range;
+            mapper = ref[name];
+            mapper.target_range = this._h_range;
         }
-        ref1 = this._yscales;
+        ref1 = this._y_mappers;
         for (name in ref1) {
-            scale = ref1[name];
-            scale.target_range = this._v_range;
+            mapper = ref1[name];
+            mapper.target_range = this._v_range;
         }
         return null;
     };
@@ -10801,19 +10846,11 @@ exports.CartesianFrame = (function (superClass) {
         y_ranges: function () {
             return this._y_ranges;
         },
-        xscales: function () {
-            return this._xscales;
-        },
-        yscales: function () {
-            return this._yscales;
-        },
         x_mappers: function () {
-            logging_1.logger.warn("x_mappers attr is deprecated, use xscales");
-            return this._xscales;
+            return this._x_mappers;
         },
         y_mappers: function () {
-            logging_1.logger.warn("y_mappers attr is deprecated, use yscales");
-            return this._yscales;
+            return this._y_mappers;
         }
     });
     CartesianFrame.internal({
@@ -10830,7 +10867,7 @@ exports.CartesianFrame = (function (superClass) {
     return CartesianFrame;
 })(layout_canvas_1.LayoutCanvas);
 
-},{"../ranges/range1d":"models/ranges/range1d","../scales/categorical_scale":"models/scales/categorical_scale","../scales/linear_scale":"models/scales/linear_scale","../scales/log_scale":"models/scales/log_scale","core/layout/layout_canvas":"core/layout/layout_canvas","core/layout/solver":"core/layout/solver","core/logging":"core/logging","core/properties":"core/properties"}],"models/canvas/index":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","../mappers/linear_mapper":"models/mappers/linear_mapper","../mappers/log_mapper":"models/mappers/log_mapper","../ranges/range1d":"models/ranges/range1d","core/layout/layout_canvas":"core/layout/layout_canvas","core/layout/solver":"core/layout/solver","core/logging":"core/logging","core/properties":"core/properties"}],"models/canvas/index":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas_1 = require("./canvas");
@@ -11489,13 +11526,13 @@ exports.AnnularWedgeView = (function (superClass) {
     AnnularWedgeView.prototype._map_data = function () {
         var i, j, ref, results;
         if (this.model.properties.inner_radius.units === "data") {
-            this.sinner_radius = this.sdist(this.renderer.xscale, this._x, this._inner_radius);
+            this.sinner_radius = this.sdist(this.renderer.xmapper, this._x, this._inner_radius);
         }
         else {
             this.sinner_radius = this._inner_radius;
         }
         if (this.model.properties.outer_radius.units === "data") {
-            this.souter_radius = this.sdist(this.renderer.xscale, this._x, this._outer_radius);
+            this.souter_radius = this.sdist(this.renderer.xmapper, this._x, this._outer_radius);
         }
         else {
             this.souter_radius = this._outer_radius;
@@ -11545,8 +11582,8 @@ exports.AnnularWedgeView = (function (superClass) {
     AnnularWedgeView.prototype._hit_point = function (geometry) {
         var angle, bbox, candidates, direction, dist, hits, i, ir2, j, k, len, len1, or2, ref, ref1, ref2, ref3, ref4, sx, sx0, sx1, sy, sy0, sy1, vx, vx0, vx1, vy, vy0, vy1, x, x0, x1, y, y0, y1;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         if (this.model.properties.outer_radius.units === "data") {
             x0 = x - this.max_outer_radius;
             x1 = x + this.max_outer_radius;
@@ -11556,10 +11593,10 @@ exports.AnnularWedgeView = (function (superClass) {
         else {
             vx0 = vx - this.max_outer_radius;
             vx1 = vx + this.max_outer_radius;
-            ref1 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
+            ref1 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
             vy0 = vy - this.max_outer_radius;
             vy1 = vy + this.max_outer_radius;
-            ref2 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
+            ref2 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
         }
         candidates = [];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
@@ -11568,10 +11605,10 @@ exports.AnnularWedgeView = (function (superClass) {
             i = ref3[j];
             or2 = Math.pow(this.souter_radius[i], 2);
             ir2 = Math.pow(this.sinner_radius[i], 2);
-            sx0 = this.renderer.xscale.compute(x, true);
-            sx1 = this.renderer.xscale.compute(this._x[i], true);
-            sy0 = this.renderer.yscale.compute(y, true);
-            sy1 = this.renderer.yscale.compute(this._y[i], true);
+            sx0 = this.renderer.xmapper.map_to_target(x, true);
+            sx1 = this.renderer.xmapper.map_to_target(this._x[i], true);
+            sy0 = this.renderer.ymapper.map_to_target(y, true);
+            sy1 = this.renderer.ymapper.map_to_target(this._y[i], true);
             dist = Math.pow(sx0 - sx1, 2) + Math.pow(sy0 - sy1, 2);
             if (dist <= or2 && dist >= ir2) {
                 candidates.push([i, dist]);
@@ -11645,13 +11682,13 @@ exports.AnnulusView = (function (superClass) {
     }
     AnnulusView.prototype._map_data = function () {
         if (this.model.properties.inner_radius.units === "data") {
-            this.sinner_radius = this.sdist(this.renderer.xscale, this._x, this._inner_radius);
+            this.sinner_radius = this.sdist(this.renderer.xmapper, this._x, this._inner_radius);
         }
         else {
             this.sinner_radius = this._inner_radius;
         }
         if (this.model.properties.outer_radius.units === "data") {
-            return this.souter_radius = this.sdist(this.renderer.xscale, this._x, this._outer_radius);
+            return this.souter_radius = this.sdist(this.renderer.xmapper, this._x, this._outer_radius);
         }
         else {
             return this.souter_radius = this._outer_radius;
@@ -11701,10 +11738,10 @@ exports.AnnulusView = (function (superClass) {
     AnnulusView.prototype._hit_point = function (geometry) {
         var bbox, dist, hits, i, ir2, j, len, or2, ref, ref1, sx0, sx1, sy0, sy1, vx, vy, x, x0, x1, y, y0, y1;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
         x0 = x - this.max_radius;
         x1 = x + this.max_radius;
-        y = this.renderer.yscale.invert(vy, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         y0 = y - this.max_radius;
         y1 = y + this.max_radius;
         hits = [];
@@ -11714,10 +11751,10 @@ exports.AnnulusView = (function (superClass) {
             i = ref1[j];
             or2 = Math.pow(this.souter_radius[i], 2);
             ir2 = Math.pow(this.sinner_radius[i], 2);
-            sx0 = this.renderer.xscale.compute(x);
-            sx1 = this.renderer.xscale.compute(this._x[i]);
-            sy0 = this.renderer.yscale.compute(y);
-            sy1 = this.renderer.yscale.compute(this._y[i]);
+            sx0 = this.renderer.xmapper.map_to_target(x);
+            sx1 = this.renderer.xmapper.map_to_target(this._x[i]);
+            sy0 = this.renderer.ymapper.map_to_target(y);
+            sy1 = this.renderer.ymapper.map_to_target(this._y[i]);
             dist = Math.pow(sx0 - sx1, 2) + Math.pow(sy0 - sy1, 2);
             if (dist <= or2 && dist >= ir2) {
                 hits.push([i, dist]);
@@ -11778,7 +11815,7 @@ exports.ArcView = (function (superClass) {
     }
     ArcView.prototype._map_data = function () {
         if (this.model.properties.radius.units === "data") {
-            return this.sradius = this.sdist(this.renderer.xscale, this._x, this._radius);
+            return this.sradius = this.sdist(this.renderer.xmapper, this._x, this._radius);
         }
         else {
             return this.sradius = this._radius;
@@ -11968,7 +12005,7 @@ exports.CircleView = (function (superClass) {
         if (this._radius != null) {
             if (this.model.properties.radius.spec.units === "data") {
                 rd = this.model.properties.radius_dimension.spec.value;
-                return this.sradius = this.sdist(this.renderer[rd + "scale"], this["_" + rd], this._radius);
+                return this.sradius = this.sdist(this.renderer[rd + "mapper"], this["_" + rd], this._radius);
             }
             else {
                 this.sradius = this._radius;
@@ -11995,22 +12032,22 @@ exports.CircleView = (function (superClass) {
         if ((this._radius != null) && this.model.properties.radius.units === "data") {
             sx0 = hr.start;
             sx1 = hr.end;
-            ref = this.renderer.xscale.v_invert([sx0, sx1], true), x0 = ref[0], x1 = ref[1];
+            ref = this.renderer.xmapper.v_map_from_target([sx0, sx1], true), x0 = ref[0], x1 = ref[1];
             x0 -= this.max_radius;
             x1 += this.max_radius;
             sy0 = vr.start;
             sy1 = vr.end;
-            ref1 = this.renderer.yscale.v_invert([sy0, sy1], true), y0 = ref1[0], y1 = ref1[1];
+            ref1 = this.renderer.ymapper.v_map_from_target([sy0, sy1], true), y0 = ref1[0], y1 = ref1[1];
             y0 -= this.max_radius;
             y1 += this.max_radius;
         }
         else {
             sx0 = hr.start - this.max_size;
             sx1 = hr.end + this.max_size;
-            ref2 = this.renderer.xscale.v_invert([sx0, sx1], true), x0 = ref2[0], x1 = ref2[1];
+            ref2 = this.renderer.xmapper.v_map_from_target([sx0, sx1], true), x0 = ref2[0], x1 = ref2[1];
             sy0 = vr.start - this.max_size;
             sy1 = vr.end + this.max_size;
-            ref3 = this.renderer.yscale.v_invert([sy0, sy1], true), y0 = ref3[0], y1 = ref3[1];
+            ref3 = this.renderer.ymapper.v_map_from_target([sy0, sy1], true), y0 = ref3[0], y1 = ref3[1];
         }
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         return this.index.indices(bbox);
@@ -12043,8 +12080,8 @@ exports.CircleView = (function (superClass) {
     CircleView.prototype._hit_point = function (geometry) {
         var bbox, candidates, dist, hits, i, j, k, len, len1, r2, ref, ref1, ref2, ref3, ref4, sx, sx0, sx1, sy, sy0, sy1, vx, vx0, vx1, vy, vy0, vy1, x, x0, x1, y, y0, y1;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         if ((this._radius != null) && this.model.properties.radius.units === "data") {
             x0 = x - this.max_radius;
             x1 = x + this.max_radius;
@@ -12054,11 +12091,11 @@ exports.CircleView = (function (superClass) {
         else {
             vx0 = vx - this.max_size;
             vx1 = vx + this.max_size;
-            ref1 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
+            ref1 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
             ref2 = [Math.min(x0, x1), Math.max(x0, x1)], x0 = ref2[0], x1 = ref2[1];
             vy0 = vy - this.max_size;
             vy1 = vy + this.max_size;
-            ref3 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref3[0], y1 = ref3[1];
+            ref3 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref3[0], y1 = ref3[1];
             ref4 = [Math.min(y0, y1), Math.max(y0, y1)], y0 = ref4[0], y1 = ref4[1];
         }
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
@@ -12068,10 +12105,10 @@ exports.CircleView = (function (superClass) {
             for (j = 0, len = candidates.length; j < len; j++) {
                 i = candidates[j];
                 r2 = Math.pow(this.sradius[i], 2);
-                sx0 = this.renderer.xscale.compute(x, true);
-                sx1 = this.renderer.xscale.compute(this._x[i], true);
-                sy0 = this.renderer.yscale.compute(y, true);
-                sy1 = this.renderer.yscale.compute(this._y[i], true);
+                sx0 = this.renderer.xmapper.map_to_target(x, true);
+                sx1 = this.renderer.xmapper.map_to_target(this._x[i], true);
+                sy0 = this.renderer.ymapper.map_to_target(y, true);
+                sy1 = this.renderer.ymapper.map_to_target(this._y[i], true);
                 dist = Math.pow(sx0 - sx1, 2) + Math.pow(sy0 - sy1, 2);
                 if (dist <= r2) {
                     hits.push([i, dist]);
@@ -12103,13 +12140,13 @@ exports.CircleView = (function (superClass) {
             if ((this._radius != null) && this.model.properties.radius.units === "data") {
                 vx0 = vx - this.max_radius;
                 vx1 = vx + this.max_radius;
-                ref2 = this.renderer.xscale.v_invert([vx0, vx1]), x0 = ref2[0], x1 = ref2[1];
+                ref2 = this.renderer.xmapper.v_map_from_target([vx0, vx1]), x0 = ref2[0], x1 = ref2[1];
             }
             else {
                 ms = this.max_size / 2;
                 vx0 = vx - ms;
                 vx1 = vx + ms;
-                ref3 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref3[0], x1 = ref3[1];
+                ref3 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref3[0], x1 = ref3[1];
             }
         }
         else {
@@ -12118,13 +12155,13 @@ exports.CircleView = (function (superClass) {
             if ((this._radius != null) && this.model.properties.radius.units === "data") {
                 vy0 = vy - this.max_radius;
                 vy1 = vy + this.max_radius;
-                ref4 = this.renderer.yscale.v_invert([vy0, vy1]), y0 = ref4[0], y1 = ref4[1];
+                ref4 = this.renderer.ymapper.v_map_from_target([vy0, vy1]), y0 = ref4[0], y1 = ref4[1];
             }
             else {
                 ms = this.max_size / 2;
                 vy0 = vy - ms;
                 vy1 = vy + ms;
-                ref5 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref5[0], y1 = ref5[1];
+                ref5 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref5[0], y1 = ref5[1];
             }
         }
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
@@ -12134,8 +12171,8 @@ exports.CircleView = (function (superClass) {
     };
     CircleView.prototype._hit_rect = function (geometry) {
         var bbox, ref, ref1, result, x0, x1, y0, y1;
-        ref = this.renderer.xscale.v_invert([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
-        ref1 = this.renderer.yscale.v_invert([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
+        ref = this.renderer.xmapper.v_map_from_target([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
+        ref1 = this.renderer.ymapper.v_map_from_target([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         result = hittest.create_hit_test_result();
         result['1d'].indices = this.index.indices(bbox);
@@ -12234,13 +12271,13 @@ exports.EllipseView = (function (superClass) {
     };
     EllipseView.prototype._map_data = function () {
         if (this.model.properties.width.units === "data") {
-            this.sw = this.sdist(this.renderer.xscale, this._x, this._width, 'center');
+            this.sw = this.sdist(this.renderer.xmapper, this._x, this._width, 'center');
         }
         else {
             this.sw = this._width;
         }
         if (this.model.properties.height.units === "data") {
-            return this.sh = this.sdist(this.renderer.yscale, this._y, this._height, 'center');
+            return this.sh = this.sdist(this.renderer.ymapper, this._y, this._height, 'center');
         }
         else {
             return this.sh = this._height;
@@ -12447,7 +12484,7 @@ exports.GlyphView = (function (superClass) {
     GlyphView.prototype.scy = function (i) {
         return this.sy[i];
     };
-    GlyphView.prototype.sdist = function (scale, pts, spans, pts_location, dilate) {
+    GlyphView.prototype.sdist = function (mapper, pts, spans, pts_location, dilate) {
         var d, halfspan, i, pt0, pt1, spt0, spt1;
         if (pts_location == null) {
             pts_location = "edge";
@@ -12456,7 +12493,7 @@ exports.GlyphView = (function (superClass) {
             dilate = false;
         }
         if (types_1.isString(pts[0])) {
-            pts = scale.v_compute(pts);
+            pts = mapper.v_map_to_target(pts);
         }
         if (pts_location === 'center') {
             halfspan = (function () {
@@ -12496,8 +12533,8 @@ exports.GlyphView = (function (superClass) {
                 return results;
             })();
         }
-        spt0 = scale.v_compute(pt0);
-        spt1 = scale.v_compute(pt1);
+        spt0 = mapper.v_map_to_target(pt0);
+        spt1 = mapper.v_map_to_target(pt1);
         if (dilate) {
             return (function () {
                 var j, ref, results;
@@ -12665,7 +12702,7 @@ var extend = function (child, parent) { for (var key in parent) {
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var spatial_1 = require("core/util/spatial");
 var glyph_1 = require("./glyph");
-var categorical_scale_1 = require("../scales/categorical_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
 var hittest = require("core/hittest");
 var p = require("core/properties");
 exports.HBarView = (function (superClass) {
@@ -12675,15 +12712,15 @@ exports.HBarView = (function (superClass) {
     }
     HBarView.prototype._map_data = function () {
         var i, j, ref, vleft, vright, vy;
-        vy = this.renderer.yscale.v_compute(this._y);
+        vy = this.renderer.ymapper.v_map_to_target(this._y);
         this.sy = this.renderer.plot_view.canvas.v_vy_to_sy(vy);
-        vright = this.renderer.xscale.v_compute(this._right);
-        vleft = this.renderer.xscale.v_compute(this._left);
+        vright = this.renderer.xmapper.v_map_to_target(this._right);
+        vleft = this.renderer.xmapper.v_map_to_target(this._left);
         this.sright = this.renderer.plot_view.canvas.v_vx_to_sx(vright);
         this.sleft = this.renderer.plot_view.canvas.v_vx_to_sx(vleft);
         this.stop = [];
         this.sbottom = [];
-        this.sh = this.sdist(this.renderer.yscale, this._y, this._height, 'center');
+        this.sh = this.sdist(this.renderer.ymapper, this._y, this._height, 'center');
         for (i = j = 0, ref = this.sy.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
             this.stop.push(this.sy[i] - this.sh[i] / 2);
             this.sbottom.push(this.sy[i] + this.sh[i] / 2);
@@ -12692,18 +12729,18 @@ exports.HBarView = (function (superClass) {
     };
     HBarView.prototype._index_data = function () {
         var b, height, i, j, l, left, map_to_synthetic, points, r, ref, right, t, y;
-        map_to_synthetic = function (scale, array) {
-            if (scale instanceof categorical_scale_1.CategoricalScale) {
-                return scale.v_compute(array, true);
+        map_to_synthetic = function (mapper, array) {
+            if (mapper instanceof categorical_mapper_1.CategoricalMapper) {
+                return mapper.v_map_to_target(array, true);
             }
             else {
                 return array;
             }
         };
-        left = map_to_synthetic(this.renderer.xscale, this._left);
-        right = map_to_synthetic(this.renderer.xscale, this._right);
-        y = map_to_synthetic(this.renderer.yscale, this._y);
-        height = map_to_synthetic(this.renderer.yscale, this._height);
+        left = map_to_synthetic(this.renderer.xmapper, this._left);
+        right = map_to_synthetic(this.renderer.xmapper, this._right);
+        y = map_to_synthetic(this.renderer.ymapper, this._y);
+        height = map_to_synthetic(this.renderer.ymapper, this._height);
         points = [];
         for (i = j = 0, ref = y.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
             l = left[i];
@@ -12751,8 +12788,8 @@ exports.HBarView = (function (superClass) {
     HBarView.prototype._hit_point = function (geometry) {
         var hits, ref, result, vx, vy, x, y;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         hits = this.index.indices({
             minX: x,
             minY: y,
@@ -12788,7 +12825,7 @@ exports.HBar = (function (superClass) {
     return HBar;
 })(glyph_1.Glyph);
 
-},{"../scales/categorical_scale":"models/scales/categorical_scale","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/spatial":"core/util/spatial"}],"models/glyphs/image":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/spatial":"core/util/spatial"}],"models/glyphs/image":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Greys9, extend = function (child, parent) { for (var key in parent) {
@@ -12874,14 +12911,14 @@ exports.ImageView = (function (superClass) {
     ImageView.prototype._map_data = function () {
         switch (this.model.properties.dw.units) {
             case "data":
-                this.sw = this.sdist(this.renderer.xscale, this._x, this._dw, 'edge', this.model.dilate);
+                this.sw = this.sdist(this.renderer.xmapper, this._x, this._dw, 'edge', this.model.dilate);
                 break;
             case "screen":
                 this.sw = this._dw;
         }
         switch (this.model.properties.dh.units) {
             case "data":
-                return this.sh = this.sdist(this.renderer.yscale, this._y, this._dh, 'edge', this.model.dilate);
+                return this.sh = this.sdist(this.renderer.ymapper, this._y, this._dh, 'edge', this.model.dilate);
             case "screen":
                 return this.sh = this._dh;
         }
@@ -13043,14 +13080,14 @@ exports.ImageRGBAView = (function (superClass) {
     ImageRGBAView.prototype._map_data = function () {
         switch (this.model.properties.dw.units) {
             case "data":
-                this.sw = this.sdist(this.renderer.xscale, this._x, this._dw, 'edge', this.model.dilate);
+                this.sw = this.sdist(this.renderer.xmapper, this._x, this._dw, 'edge', this.model.dilate);
                 break;
             case "screen":
                 this.sw = this._dw;
         }
         switch (this.model.properties.dh.units) {
             case "data":
-                return this.sh = this.sdist(this.renderer.yscale, this._y, this._dh, 'edge', this.model.dilate);
+                return this.sh = this.sdist(this.renderer.ymapper, this._y, this._dh, 'edge', this.model.dilate);
             case "screen":
                 return this.sh = this._dh;
         }
@@ -13226,14 +13263,14 @@ exports.ImageURLView = (function (superClass) {
         }).call(this));
         switch (this.model.properties.w.units) {
             case "data":
-                this.sw = this.sdist(this.renderer.xscale, this._x, ws, 'edge', this.model.dilate);
+                this.sw = this.sdist(this.renderer.xmapper, this._x, ws, 'edge', this.model.dilate);
                 break;
             case "screen":
                 this.sw = ws;
         }
         switch (this.model.properties.h.units) {
             case "data":
-                return this.sh = this.sdist(this.renderer.yscale, this._y, hs, 'edge', this.model.dilate);
+                return this.sh = this.sdist(this.renderer.ymapper, this._y, hs, 'edge', this.model.dilate);
             case "screen":
                 return this.sh = hs;
         }
@@ -13242,7 +13279,7 @@ exports.ImageURLView = (function (superClass) {
         var _angle, _url, frame, i, image, j, len, results, sh, sw, sx, sy;
         _url = arg._url, image = arg.image, sx = arg.sx, sy = arg.sy, sw = arg.sw, sh = arg.sh, _angle = arg._angle;
         frame = this.renderer.plot_view.frame;
-        ctx.rect(frame._left.value + 1, frame._bottom.value + 1, frame._width.value - 2, frame._height.value - 2);
+        ctx.rect(frame.left + 1, frame.bottom + 1, frame.width - 2, frame.height - 2);
         ctx.clip();
         results = [];
         for (j = 0, len = indices.length; j < len; j++) {
@@ -13474,11 +13511,11 @@ exports.LineView = (function (superClass) {
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         result = hittest.create_hit_test_result();
         if (geometry.direction === 'v') {
-            val = this.renderer.yscale.invert(vy);
+            val = this.renderer.ymapper.map_from_target(vy);
             values = this._y;
         }
         else {
-            val = this.renderer.xscale.invert(vx);
+            val = this.renderer.xmapper.map_from_target(vx);
             values = this._x;
         }
         for (i = j = 0, ref1 = values.length - 1; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
@@ -13498,16 +13535,16 @@ exports.LineView = (function (superClass) {
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         ref1 = [this._x[i], this._y[i], this._x[i + 1], this._y[i + 1]], x2 = ref1[0], y2 = ref1[1], x3 = ref1[2], y3 = ref1[3];
         if (geometry.type === 'point') {
-            ref2 = this.renderer.yscale.v_invert([vy - 1, vy + 1]), y0 = ref2[0], y1 = ref2[1];
-            ref3 = this.renderer.xscale.v_invert([vx - 1, vx + 1]), x0 = ref3[0], x1 = ref3[1];
+            ref2 = this.renderer.ymapper.v_map_from_target([vy - 1, vy + 1]), y0 = ref2[0], y1 = ref2[1];
+            ref3 = this.renderer.xmapper.v_map_from_target([vx - 1, vx + 1]), x0 = ref3[0], x1 = ref3[1];
         }
         else {
             if (geometry.direction === 'v') {
-                ref4 = this.renderer.yscale.v_invert([vy, vy]), y0 = ref4[0], y1 = ref4[1];
+                ref4 = this.renderer.ymapper.v_map_from_target([vy, vy]), y0 = ref4[0], y1 = ref4[1];
                 ref5 = [x2, x3], x0 = ref5[0], x1 = ref5[1];
             }
             else {
-                ref6 = this.renderer.xscale.v_invert([vx, vx]), x0 = ref6[0], x1 = ref6[1];
+                ref6 = this.renderer.xmapper.v_map_from_target([vx, vx]), x0 = ref6[0], x1 = ref6[1];
                 ref7 = [y2, y3], y0 = ref7[0], y1 = ref7[1];
             }
         }
@@ -13656,11 +13693,11 @@ exports.MultiLineView = (function (superClass) {
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         result = hittest.create_hit_test_result();
         if (geometry.direction === 'v') {
-            val = this.renderer.yscale.invert(vy);
+            val = this.renderer.ymapper.map_from_target(vy);
             values = this._ys;
         }
         else {
-            val = this.renderer.xscale.invert(vx);
+            val = this.renderer.xmapper.map_from_target(vx);
             values = this._xs;
         }
         hits = {};
@@ -13684,16 +13721,16 @@ exports.MultiLineView = (function (superClass) {
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         ref1 = [this._xs[i][point_i], this._ys[i][point_i], this._xs[i][point_i + 1], this._ys[i][point_i + 1]], x2 = ref1[0], y2 = ref1[1], x3 = ref1[2], y3 = ref1[3];
         if (geometry.type === 'point') {
-            ref2 = this.renderer.yscale.v_invert([vy - 1, vy + 1]), y0 = ref2[0], y1 = ref2[1];
-            ref3 = this.renderer.xscale.v_invert([vx - 1, vx + 1]), x0 = ref3[0], x1 = ref3[1];
+            ref2 = this.renderer.ymapper.v_map_from_target([vy - 1, vy + 1]), y0 = ref2[0], y1 = ref2[1];
+            ref3 = this.renderer.xmapper.v_map_from_target([vx - 1, vx + 1]), x0 = ref3[0], x1 = ref3[1];
         }
         else {
             if (geometry.direction === 'v') {
-                ref4 = this.renderer.yscale.v_invert([vy, vy]), y0 = ref4[0], y1 = ref4[1];
+                ref4 = this.renderer.ymapper.v_map_from_target([vy, vy]), y0 = ref4[0], y1 = ref4[1];
                 ref5 = [x2, x3], x0 = ref5[0], x1 = ref5[1];
             }
             else {
-                ref6 = this.renderer.xscale.v_invert([vx, vx]), x0 = ref6[0], x1 = ref6[1];
+                ref6 = this.renderer.xmapper.v_map_from_target([vx, vx]), x0 = ref6[0], x1 = ref6[1];
                 ref7 = [y2, y3], y0 = ref7[0], y1 = ref7[1];
             }
         }
@@ -13743,13 +13780,13 @@ exports.OvalView = (function (superClass) {
     };
     OvalView.prototype._map_data = function () {
         if (this.model.properties.width.units === "data") {
-            this.sw = this.sdist(this.renderer.xscale, this._x, this._width, 'center');
+            this.sw = this.sdist(this.renderer.xmapper, this._x, this._width, 'center');
         }
         else {
             this.sw = this._width;
         }
         if (this.model.properties.height.units === "data") {
-            return this.sh = this.sdist(this.renderer.yscale, this._y, this._height, 'center');
+            return this.sh = this.sdist(this.renderer.ymapper, this._y, this._height, 'center');
         }
         else {
             return this.sh = this._height;
@@ -13984,9 +14021,9 @@ exports.PatchesView = (function (superClass) {
     };
     PatchesView.prototype._mask_data = function (all_indices) {
         var bbox, ref, ref1, x0, x1, xr, y0, y1, yr;
-        xr = this.renderer.plot_view.frame.x_ranges["default"];
+        xr = this.renderer.plot_view.x_range;
         ref = [xr.min, xr.max], x0 = ref[0], x1 = ref[1];
-        yr = this.renderer.plot_view.frame.y_ranges["default"];
+        yr = this.renderer.plot_view.y_range;
         ref1 = [yr.min, yr.max], y0 = ref1[0], y1 = ref1[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         return this.index.indices(bbox);
@@ -14053,8 +14090,8 @@ exports.PatchesView = (function (superClass) {
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         sx = this.renderer.plot_view.canvas.vx_to_sx(vx);
         sy = this.renderer.plot_view.canvas.vy_to_sy(vy);
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         candidates = this.index.indices({
             minX: x,
             minY: y,
@@ -14142,7 +14179,7 @@ var extend = function (child, parent) { for (var key in parent) {
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var spatial_1 = require("core/util/spatial");
 var glyph_1 = require("./glyph");
-var categorical_scale_1 = require("../scales/categorical_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
 var hittest = require("core/hittest");
 exports.QuadView = (function (superClass) {
     extend(QuadView, superClass);
@@ -14151,18 +14188,18 @@ exports.QuadView = (function (superClass) {
     }
     QuadView.prototype._index_data = function () {
         var b, bottom, i, j, l, left, map_to_synthetic, points, r, ref, right, t, top;
-        map_to_synthetic = function (scale, array) {
-            if (scale instanceof categorical_scale_1.CategoricalScale) {
-                return scale.v_compute(array, true);
+        map_to_synthetic = function (mapper, array) {
+            if (mapper instanceof categorical_mapper_1.CategoricalMapper) {
+                return mapper.v_map_to_target(array, true);
             }
             else {
                 return array;
             }
         };
-        left = map_to_synthetic(this.renderer.xscale, this._left);
-        right = map_to_synthetic(this.renderer.xscale, this._right);
-        top = map_to_synthetic(this.renderer.yscale, this._top);
-        bottom = map_to_synthetic(this.renderer.yscale, this._bottom);
+        left = map_to_synthetic(this.renderer.xmapper, this._left);
+        right = map_to_synthetic(this.renderer.xmapper, this._right);
+        top = map_to_synthetic(this.renderer.ymapper, this._top);
+        bottom = map_to_synthetic(this.renderer.ymapper, this._bottom);
         points = [];
         for (i = j = 0, ref = left.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
             l = left[i];
@@ -14210,8 +14247,8 @@ exports.QuadView = (function (superClass) {
     QuadView.prototype._hit_point = function (geometry) {
         var hits, ref, result, vx, vy, x, y;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         hits = this.index.indices({
             minX: x,
             minY: y,
@@ -14299,7 +14336,7 @@ exports.Quad = (function (superClass) {
     return Quad;
 })(glyph_1.Glyph);
 
-},{"../scales/categorical_scale":"models/scales/categorical_scale","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/util/spatial":"core/util/spatial"}],"models/glyphs/quadratic":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/util/spatial":"core/util/spatial"}],"models/glyphs/quadratic":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _qbb, extend = function (child, parent) { for (var key in parent) {
@@ -14394,14 +14431,14 @@ exports.RayView = (function (superClass) {
         return RayView.__super__.constructor.apply(this, arguments);
     }
     RayView.prototype._map_data = function () {
-        return this.slength = this.sdist(this.renderer.xscale, this._x, this._length);
+        return this.slength = this.sdist(this.renderer.xmapper, this._x, this._length);
     };
     RayView.prototype._render = function (ctx, indices, arg) {
         var _angle, height, i, inf_len, j, k, len, ref, results, slength, sx, sy, width;
         sx = arg.sx, sy = arg.sy, slength = arg.slength, _angle = arg._angle;
         if (this.visuals.line.doit) {
-            width = this.renderer.plot_view.frame._width.value;
-            height = this.renderer.plot_view.frame._height.value;
+            width = this.renderer.plot_view.frame.width;
+            height = this.renderer.plot_view.frame.height;
             inf_len = 2 * (width + height);
             for (i = j = 0, ref = slength.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
                 if (slength[i] === 0) {
@@ -14459,7 +14496,7 @@ var hittest = require("core/hittest");
 var p = require("core/properties");
 var array_1 = require("core/util/array");
 var types_1 = require("core/util/types");
-var categorical_scale_1 = require("../scales/categorical_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
 exports.RectView = (function (superClass) {
     extend(RectView, superClass);
     function RectView() {
@@ -14479,7 +14516,7 @@ exports.RectView = (function (superClass) {
         var canvas, i, ref, ref1;
         canvas = this.renderer.plot_view.canvas;
         if (this.model.properties.width.units === "data") {
-            ref = this._map_dist_corner_for_data_side_length(this._x, this._width, this.renderer.xscale, canvas, 0), this.sw = ref[0], this.sx0 = ref[1];
+            ref = this._map_dist_corner_for_data_side_length(this._x, this._width, this.renderer.xmapper, canvas, 0), this.sw = ref[0], this.sx0 = ref[1];
         }
         else {
             this.sw = this._width;
@@ -14493,7 +14530,7 @@ exports.RectView = (function (superClass) {
             }).call(this);
         }
         if (this.model.properties.height.units === "data") {
-            ref1 = this._map_dist_corner_for_data_side_length(this._y, this._height, this.renderer.yscale, canvas, 1), this.sh = ref1[0], this.sy1 = ref1[1];
+            ref1 = this._map_dist_corner_for_data_side_length(this._y, this._height, this.renderer.ymapper, canvas, 1), this.sh = ref1[0], this.sy1 = ref1[1];
         }
         else {
             this.sh = this._height;
@@ -14566,8 +14603,8 @@ exports.RectView = (function (superClass) {
     };
     RectView.prototype._hit_rect = function (geometry) {
         var bbox, ref, ref1, result, x0, x1, y0, y1;
-        ref = this.renderer.xscale.v_invert([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
-        ref1 = this.renderer.yscale.v_invert([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
+        ref = this.renderer.xmapper.v_map_from_target([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
+        ref1 = this.renderer.ymapper.v_map_from_target([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         result = hittest.create_hit_test_result();
         result['1d'].indices = this.index.indices(bbox);
@@ -14576,8 +14613,8 @@ exports.RectView = (function (superClass) {
     RectView.prototype._hit_point = function (geometry) {
         var bbox, c, d, height_in, hits, i, j, len, max_x2_ddist, max_y2_ddist, px, py, ref, ref1, result, s, scenter_x, scenter_y, sx, sy, vx, vy, width_in, x, x0, x1, y, y0, y1;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         scenter_x = (function () {
             var j, ref1, results;
             results = [];
@@ -14630,11 +14667,11 @@ exports.RectView = (function (superClass) {
         result['1d'].indices = hits;
         return result;
     };
-    RectView.prototype._map_dist_corner_for_data_side_length = function (coord, side_length, scale, canvas, dim) {
+    RectView.prototype._map_dist_corner_for_data_side_length = function (coord, side_length, mapper, canvas, dim) {
         var i, pt0, pt1, return_synthetic, sside_length, synthetic_pt, synthetic_pt_corner, vpt0, vpt1, vpt_corner;
-        if (types_1.isString(coord[0]) && scale instanceof categorical_scale_1.CategoricalScale) {
+        if (types_1.isString(coord[0]) && mapper instanceof categorical_mapper_1.CategoricalMapper) {
             return_synthetic = true;
-            synthetic_pt = scale.v_compute(coord, return_synthetic);
+            synthetic_pt = mapper.v_map_to_target(coord, return_synthetic);
             if (dim === 0) {
                 synthetic_pt_corner = (function () {
                     var j, ref, results;
@@ -14655,8 +14692,8 @@ exports.RectView = (function (superClass) {
                     return results;
                 })();
             }
-            vpt_corner = scale.v_compute(synthetic_pt_corner);
-            sside_length = this.sdist(scale, coord, side_length, 'center', this.model.dilate);
+            vpt_corner = mapper.v_map_to_target(synthetic_pt_corner);
+            sside_length = this.sdist(mapper, coord, side_length, 'center', this.model.dilate);
         }
         else {
             pt0 = (function () {
@@ -14675,9 +14712,9 @@ exports.RectView = (function (superClass) {
                 }
                 return results;
             })();
-            vpt0 = scale.v_compute(pt0);
-            vpt1 = scale.v_compute(pt1);
-            sside_length = this.sdist(scale, pt0, side_length, 'edge', this.model.dilate);
+            vpt0 = mapper.v_map_to_target(pt0);
+            vpt1 = mapper.v_map_to_target(pt1);
+            sside_length = this.sdist(mapper, pt0, side_length, 'edge', this.model.dilate);
             if (dim === 0) {
                 vpt_corner = vpt0[0] < vpt1[0] ? vpt0 : vpt1;
             }
@@ -14693,14 +14730,14 @@ exports.RectView = (function (superClass) {
         }
     };
     RectView.prototype._ddist = function (dim, spts, spans) {
-        var i, pt0, pt1, scale, vpt0, vpt1, vpts;
+        var i, mapper, pt0, pt1, vpt0, vpt1, vpts;
         if (dim === 0) {
             vpts = this.renderer.plot_view.canvas.v_sx_to_vx(spts);
-            scale = this.renderer.xscale;
+            mapper = this.renderer.xmapper;
         }
         else {
             vpts = this.renderer.plot_view.canvas.v_vy_to_sy(spts);
-            scale = this.renderer.yscale;
+            mapper = this.renderer.ymapper;
         }
         vpt0 = vpts;
         vpt1 = (function () {
@@ -14711,8 +14748,8 @@ exports.RectView = (function (superClass) {
             }
             return results;
         })();
-        pt0 = scale.v_invert(vpt0);
-        pt1 = scale.v_invert(vpt1);
+        pt0 = mapper.v_map_from_target(vpt0);
+        pt1 = mapper.v_map_from_target(vpt1);
         return (function () {
             var j, ref, results;
             results = [];
@@ -14747,7 +14784,7 @@ exports.Rect = (function (superClass) {
     return Rect;
 })(xy_glyph_1.XYGlyph);
 
-},{"../scales/categorical_scale":"models/scales/categorical_scale","./xy_glyph":"models/glyphs/xy_glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/array":"core/util/array","core/util/types":"core/util/types"}],"models/glyphs/segment":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","./xy_glyph":"models/glyphs/xy_glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/array":"core/util/array","core/util/types":"core/util/types"}],"models/glyphs/segment":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -14800,8 +14837,8 @@ exports.SegmentView = (function (superClass) {
     SegmentView.prototype._hit_point = function (geometry) {
         var candidates, dist, hits, i, j, len, p0, p1, point, ref, ref1, result, threshold, vx, vy, x, y;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         point = {
             x: this.renderer.plot_view.canvas.vx_to_sx(vx),
             y: this.renderer.plot_view.canvas.vy_to_sy(vy)
@@ -14840,19 +14877,19 @@ exports.SegmentView = (function (superClass) {
         vr = this.renderer.plot_view.frame.v_range;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
         if (geometry.direction === 'v') {
-            val = this.renderer.yscale.invert(vy);
+            val = this.renderer.ymapper.map_from_target(vy);
             ref1 = [this._y0, this._y1], v0 = ref1[0], v1 = ref1[1];
         }
         else {
-            val = this.renderer.xscale.invert(vx);
+            val = this.renderer.xmapper.map_from_target(vx);
             ref2 = [this._x0, this._x1], v0 = ref2[0], v1 = ref2[1];
         }
         hits = [];
         candidates = this.index.indices({
-            minX: this.renderer.xscale.invert(hr.min),
-            minY: this.renderer.yscale.invert(vr.min),
-            maxX: this.renderer.xscale.invert(hr.max),
-            maxY: this.renderer.yscale.invert(vr.max)
+            minX: this.renderer.xmapper.map_from_target(hr.min),
+            minY: this.renderer.ymapper.map_from_target(vr.min),
+            maxX: this.renderer.xmapper.map_from_target(hr.max),
+            maxY: this.renderer.ymapper.map_from_target(vr.max)
         });
         for (j = 0, len = candidates.length; j < len; j++) {
             i = candidates[j];
@@ -14966,7 +15003,7 @@ var extend = function (child, parent) { for (var key in parent) {
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var spatial_1 = require("core/util/spatial");
 var glyph_1 = require("./glyph");
-var categorical_scale_1 = require("../scales/categorical_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
 var hittest = require("core/hittest");
 var p = require("core/properties");
 exports.VBarView = (function (superClass) {
@@ -14976,14 +15013,14 @@ exports.VBarView = (function (superClass) {
     }
     VBarView.prototype._map_data = function () {
         var i, j, ref, vbottom, vtop;
-        this.sx = this.renderer.xscale.v_compute(this._x);
-        vtop = this.renderer.yscale.v_compute(this._top);
-        vbottom = this.renderer.yscale.v_compute(this._bottom);
+        this.sx = this.renderer.xmapper.v_map_to_target(this._x);
+        vtop = this.renderer.ymapper.v_map_to_target(this._top);
+        vbottom = this.renderer.ymapper.v_map_to_target(this._bottom);
         this.stop = this.renderer.plot_view.canvas.v_vy_to_sy(vtop);
         this.sbottom = this.renderer.plot_view.canvas.v_vy_to_sy(vbottom);
         this.sleft = [];
         this.sright = [];
-        this.sw = this.sdist(this.renderer.xscale, this._x, this._width, 'center');
+        this.sw = this.sdist(this.renderer.xmapper, this._x, this._width, 'center');
         for (i = j = 0, ref = this.sx.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
             this.sleft.push(this.sx[i] - this.sw[i] / 2);
             this.sright.push(this.sx[i] + this.sw[i] / 2);
@@ -14992,18 +15029,18 @@ exports.VBarView = (function (superClass) {
     };
     VBarView.prototype._index_data = function () {
         var b, bottom, i, j, l, map_to_synthetic, points, r, ref, t, top, width, x;
-        map_to_synthetic = function (scale, array) {
-            if (scale instanceof categorical_scale_1.CategoricalScale) {
-                return scale.v_compute(array, true);
+        map_to_synthetic = function (mapper, array) {
+            if (mapper instanceof categorical_mapper_1.CategoricalMapper) {
+                return mapper.v_map_to_target(array, true);
             }
             else {
                 return array;
             }
         };
-        x = map_to_synthetic(this.renderer.xscale, this._x);
-        width = map_to_synthetic(this.renderer.xscale, this._width);
-        top = map_to_synthetic(this.renderer.yscale, this._top);
-        bottom = map_to_synthetic(this.renderer.yscale, this._bottom);
+        x = map_to_synthetic(this.renderer.xmapper, this._x);
+        width = map_to_synthetic(this.renderer.xmapper, this._width);
+        top = map_to_synthetic(this.renderer.ymapper, this._top);
+        bottom = map_to_synthetic(this.renderer.ymapper, this._bottom);
         points = [];
         for (i = j = 0, ref = x.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
             l = x[i] - width[i] / 2;
@@ -15051,8 +15088,8 @@ exports.VBarView = (function (superClass) {
     VBarView.prototype._hit_point = function (geometry) {
         var hits, ref, result, vx, vy, x, y;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         hits = this.index.indices({
             minX: x,
             minY: y,
@@ -15088,7 +15125,7 @@ exports.VBar = (function (superClass) {
     return VBar;
 })(glyph_1.Glyph);
 
-},{"../scales/categorical_scale":"models/scales/categorical_scale","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/spatial":"core/util/spatial"}],"models/glyphs/wedge":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","./glyph":"models/glyphs/glyph","core/hittest":"core/hittest","core/properties":"core/properties","core/util/spatial":"core/util/spatial"}],"models/glyphs/wedge":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -15106,7 +15143,7 @@ exports.WedgeView = (function (superClass) {
     }
     WedgeView.prototype._map_data = function () {
         if (this.model.properties.radius.units === "data") {
-            return this.sradius = this.sdist(this.renderer.xscale, this._x, this._radius);
+            return this.sradius = this.sdist(this.renderer.xmapper, this._x, this._radius);
         }
         else {
             return this.sradius = this._radius;
@@ -15143,8 +15180,8 @@ exports.WedgeView = (function (superClass) {
     WedgeView.prototype._hit_point = function (geometry) {
         var angle, bbox, candidates, direction, dist, hits, i, j, k, len, len1, r2, ref, ref1, ref2, ref3, ref4, sx, sx0, sx1, sy, sy0, sy1, vx, vx0, vx1, vy, vy0, vy1, x, x0, x1, y, y0, y1;
         ref = [geometry.vx, geometry.vy], vx = ref[0], vy = ref[1];
-        x = this.renderer.xscale.invert(vx, true);
-        y = this.renderer.yscale.invert(vy, true);
+        x = this.renderer.xmapper.map_from_target(vx, true);
+        y = this.renderer.ymapper.map_from_target(vy, true);
         if (this.model.properties.radius.units === "data") {
             x0 = x - this.max_radius;
             x1 = x + this.max_radius;
@@ -15154,10 +15191,10 @@ exports.WedgeView = (function (superClass) {
         else {
             vx0 = vx - this.max_radius;
             vx1 = vx + this.max_radius;
-            ref1 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
+            ref1 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
             vy0 = vy - this.max_radius;
             vy1 = vy + this.max_radius;
-            ref2 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
+            ref2 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
         }
         candidates = [];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
@@ -15165,10 +15202,10 @@ exports.WedgeView = (function (superClass) {
         for (j = 0, len = ref3.length; j < len; j++) {
             i = ref3[j];
             r2 = Math.pow(this.sradius[i], 2);
-            sx0 = this.renderer.xscale.compute(x, true);
-            sx1 = this.renderer.xscale.compute(this._x[i], true);
-            sy0 = this.renderer.yscale.compute(y, true);
-            sy1 = this.renderer.yscale.compute(this._y[i], true);
+            sx0 = this.renderer.xmapper.map_to_target(x, true);
+            sx1 = this.renderer.xmapper.map_to_target(this._x[i], true);
+            sy0 = this.renderer.ymapper.map_to_target(y, true);
+            sy1 = this.renderer.ymapper.map_to_target(this._y[i], true);
             dist = Math.pow(sx0 - sx1, 2) + Math.pow(sy0 - sy1, 2);
             if (dist <= r2) {
                 candidates.push([i, dist]);
@@ -15218,7 +15255,7 @@ var extend = function (child, parent) { for (var key in parent) {
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var spatial_1 = require("core/util/spatial");
 var glyph_1 = require("./glyph");
-var categorical_scale_1 = require("../scales/categorical_scale");
+var categorical_mapper_1 = require("../mappers/categorical_mapper");
 exports.XYGlyphView = (function (superClass) {
     extend(XYGlyphView, superClass);
     function XYGlyphView() {
@@ -15226,14 +15263,14 @@ exports.XYGlyphView = (function (superClass) {
     }
     XYGlyphView.prototype._index_data = function () {
         var i, j, points, ref, x, xx, y, yy;
-        if (this.renderer.xscale instanceof categorical_scale_1.CategoricalScale) {
-            xx = this.renderer.xscale.v_compute(this._x, true);
+        if (this.renderer.xmapper instanceof categorical_mapper_1.CategoricalMapper) {
+            xx = this.renderer.xmapper.v_map_to_target(this._x, true);
         }
         else {
             xx = this._x;
         }
-        if (this.renderer.yscale instanceof categorical_scale_1.CategoricalScale) {
-            yy = this.renderer.yscale.v_compute(this._y, true);
+        if (this.renderer.ymapper instanceof categorical_mapper_1.CategoricalMapper) {
+            yy = this.renderer.ymapper.v_map_to_target(this._y, true);
         }
         else {
             yy = this._y;
@@ -15271,7 +15308,7 @@ exports.XYGlyph = (function (superClass) {
     return XYGlyph;
 })(glyph_1.Glyph);
 
-},{"../scales/categorical_scale":"models/scales/categorical_scale","./glyph":"models/glyphs/glyph","core/util/spatial":"core/util/spatial"}],"models/grids/grid":[function(require,module,exports){
+},{"../mappers/categorical_mapper":"models/mappers/categorical_mapper","./glyph":"models/glyphs/glyph","core/util/spatial":"core/util/spatial"}],"models/grids/grid":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -15474,13 +15511,12 @@ __export(require("./markers"));
 __export(require("./plots"));
 __export(require("./ranges"));
 __export(require("./renderers"));
-__export(require("./scales"));
 __export(require("./sources"));
 __export(require("./tickers"));
 __export(require("./tiles"));
 __export(require("./tools"));
 
-},{"./annotations":"models/annotations/index","./axes":"models/axes/index","./callbacks":"models/callbacks/index","./canvas":"models/canvas/index","./formatters":"models/formatters/index","./glyphs":"models/glyphs/index","./grids":"models/grids/index","./layouts":"models/layouts/index","./mappers":"models/mappers/index","./markers":"models/markers/index","./plots":"models/plots/index","./ranges":"models/ranges/index","./renderers":"models/renderers/index","./scales":"models/scales/index","./sources":"models/sources/index","./tickers":"models/tickers/index","./tiles":"models/tiles/index","./tools":"models/tools/index","./transforms":"models/transforms/index"}],"models/layouts/box":[function(require,module,exports){
+},{"./annotations":"models/annotations/index","./axes":"models/axes/index","./callbacks":"models/callbacks/index","./canvas":"models/canvas/index","./formatters":"models/formatters/index","./glyphs":"models/glyphs/index","./grids":"models/grids/index","./layouts":"models/layouts/index","./mappers":"models/mappers/index","./markers":"models/markers/index","./plots":"models/plots/index","./ranges":"models/ranges/index","./renderers":"models/renderers/index","./sources":"models/sources/index","./tickers":"models/tickers/index","./tiles":"models/tiles/index","./tools":"models/tools/index","./transforms":"models/transforms/index"}],"models/layouts/box":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend1 = function (child, parent) { for (var key in parent) {
@@ -15513,7 +15549,7 @@ exports.BoxView = (function (superClass) {
         var child_heights, children, height;
         children = this.model.get_layoutable_children();
         child_heights = children.map(function (child) {
-            return child._height.value;
+            return child._height._value;
         });
         if (this.model._horizontal) {
             height = array_1.max(child_heights);
@@ -15527,7 +15563,7 @@ exports.BoxView = (function (superClass) {
         var child_widths, children, width;
         children = this.model.get_layoutable_children();
         child_widths = children.map(function (child) {
-            return child._width.value;
+            return child._width._value;
         });
         if (this.model._horizontal) {
             width = array_1.sum(child_widths);
@@ -16157,20 +16193,20 @@ exports.LayoutDOMView = (function (superClass) {
                 height = this.get_height();
                 this.solver.suggest_value(this.model._height, height);
                 this.solver.update_variables();
-                this.el.style.width = this.model._width.value + "px";
-                return this.el.style.height = this.model._height.value + "px";
+                this.el.style.width = this.model._width._value + "px";
+                return this.el.style.height = this.model._height._value + "px";
             case 'scale_height':
                 width = this.get_width();
                 this.solver.suggest_value(this.model._width, width);
                 this.solver.update_variables();
-                this.el.style.width = this.model._width.value + "px";
-                return this.el.style.height = this.model._height.value + "px";
+                this.el.style.width = this.model._width._value + "px";
+                return this.el.style.height = this.model._height._value + "px";
             case 'stretch_both':
                 this.el.style.position = 'absolute';
-                this.el.style.left = this.model._dom_left.value + "px";
-                this.el.style.top = this.model._dom_top.value + "px";
-                this.el.style.width = this.model._width.value + "px";
-                return this.el.style.height = this.model._height.value + "px";
+                this.el.style.left = this.model._dom_left._value + "px";
+                this.el.style.top = this.model._dom_top._value + "px";
+                this.el.style.width = this.model._width._value + "px";
+                return this.el.style.height = this.model._height._value + "px";
         }
     };
     LayoutDOMView.prototype.get_height = function () {
@@ -16384,14 +16420,14 @@ exports.WidgetBoxView = (function (superClass) {
         update_layout = false;
         if (this.model.sizing_mode === 'fixed' || this.model.sizing_mode === 'scale_height') {
             width = this.get_width();
-            if (this.model._width.value !== width) {
+            if (this.model._width._value !== width) {
                 this.solver.suggest_value(this.model._width, width);
                 update_layout = true;
             }
         }
         if (this.model.sizing_mode === 'fixed' || this.model.sizing_mode === 'scale_width') {
             height = this.get_height();
-            if (this.model._height.value !== height) {
+            if (this.model._height._value !== height) {
                 this.solver.suggest_value(this.model._height, height);
                 update_layout = true;
             }
@@ -16401,14 +16437,14 @@ exports.WidgetBoxView = (function (superClass) {
         }
         if (this.model.sizing_mode === 'stretch_both') {
             this.el.style.position = 'absolute';
-            this.el.style.left = this.model._dom_left.value + "px";
-            this.el.style.top = this.model._dom_top.value + "px";
-            this.el.style.width = this.model._width.value + "px";
-            return this.el.style.height = this.model._height.value + "px";
+            this.el.style.left = this.model._dom_left._value + "px";
+            this.el.style.top = this.model._dom_top._value + "px";
+            this.el.style.width = this.model._width._value + "px";
+            return this.el.style.height = this.model._height._value + "px";
         }
         else {
-            if (this.model._width.value - 20 > 0) {
-                css_width = (this.model._width.value - 20) + "px";
+            if (this.model._width._value - 20 > 0) {
+                css_width = (this.model._width._value - 20) + "px";
             }
             else {
                 css_width = "100%";
@@ -16553,7 +16589,121 @@ exports.CategoricalColorMapper = (function (superClass) {
     return CategoricalColorMapper;
 })(color_mapper_1.ColorMapper);
 
-},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties"}],"models/mappers/color_mapper":[function(require,module,exports){
+},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties"}],"models/mappers/categorical_mapper":[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var extend = function (child, parent) { for (var key in parent) {
+    if (hasProp.call(parent, key))
+        child[key] = parent[key];
+} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
+var linear_mapper_1 = require("./linear_mapper");
+var types_1 = require("core/util/types");
+exports.CategoricalMapper = (function (superClass) {
+    extend(CategoricalMapper, superClass);
+    function CategoricalMapper() {
+        return CategoricalMapper.__super__.constructor.apply(this, arguments);
+    }
+    CategoricalMapper.prototype.map_to_target = function (x, return_synthetic) {
+        var factor, factors, percent, range, ref, result;
+        if (return_synthetic == null) {
+            return_synthetic = false;
+        }
+        if (types_1.isNumber(x)) {
+            if (return_synthetic) {
+                return x;
+            }
+            else {
+                return CategoricalMapper.__super__.map_to_target.call(this, x);
+            }
+        }
+        range = this.source_range;
+        factors = range.factors;
+        if (x.indexOf(':') >= 0) {
+            ref = x.split(':'), factor = ref[0], percent = ref[1];
+            percent = parseFloat(percent);
+            result = factors.indexOf(factor) + 0.5 + range.offset + percent;
+        }
+        else {
+            result = factors.indexOf(x) + 1 + range.offset;
+        }
+        if (return_synthetic) {
+            return result;
+        }
+        else {
+            return CategoricalMapper.__super__.map_to_target.call(this, result);
+        }
+    };
+    CategoricalMapper.prototype.v_map_to_target = function (xs, return_synthetic) {
+        var factor, factors, i, j, percent, range, ref, ref1, results, x;
+        if (return_synthetic == null) {
+            return_synthetic = false;
+        }
+        if (types_1.isNumber(xs[0])) {
+            if (return_synthetic) {
+                return xs;
+            }
+            else {
+                return CategoricalMapper.__super__.v_map_to_target.call(this, xs);
+            }
+        }
+        range = this.source_range;
+        factors = range.factors;
+        results = Array(xs.length);
+        for (i = j = 0, ref = xs.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+            x = xs[i];
+            if (x.indexOf(':') >= 0) {
+                ref1 = x.split(':'), factor = ref1[0], percent = ref1[1];
+                percent = parseFloat(percent);
+                results[i] = factors.indexOf(factor) + 0.5 + range.offset + percent;
+            }
+            else {
+                results[i] = factors.indexOf(x) + 1 + range.offset;
+            }
+        }
+        if (return_synthetic) {
+            return results;
+        }
+        else {
+            return CategoricalMapper.__super__.v_map_to_target.call(this, results);
+        }
+    };
+    CategoricalMapper.prototype.map_from_target = function (xprime, skip_cat) {
+        var factors, range;
+        if (skip_cat == null) {
+            skip_cat = false;
+        }
+        xprime = CategoricalMapper.__super__.map_from_target.call(this, xprime);
+        if (skip_cat) {
+            return xprime;
+        }
+        range = this.source_range;
+        factors = range.factors;
+        return factors[Math.floor(xprime - 0.5 - range.offset)];
+    };
+    CategoricalMapper.prototype.v_map_from_target = function (xprimes, skip_cat) {
+        var factors, i, j, k, range, ref, ref1, result, x;
+        if (skip_cat == null) {
+            skip_cat = false;
+        }
+        x = CategoricalMapper.__super__.v_map_from_target.call(this, xprimes);
+        for (i = j = 0, ref = x.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+            x[i] = x[i];
+        }
+        if (skip_cat) {
+            return x;
+        }
+        result = Array(x);
+        range = this.source_range;
+        factors = range.factors;
+        for (i = k = 0, ref1 = xprimes.length; 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
+            result[i] = factors[Math.floor(x[i] - 0.5 - range.offset)];
+        }
+        return result;
+    };
+    return CategoricalMapper;
+})(linear_mapper_1.LinearMapper);
+
+},{"./linear_mapper":"models/mappers/linear_mapper","core/util/types":"core/util/types"}],"models/mappers/color_mapper":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -16561,7 +16711,7 @@ var extend = function (child, parent) { for (var key in parent) {
         child[key] = parent[key];
 } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
 var p = require("core/properties");
-var transform_1 = require("../transforms/transform");
+var model_1 = require("../../model");
 var types_1 = require("core/util/types");
 exports.ColorMapper = (function (superClass) {
     extend(ColorMapper, superClass);
@@ -16646,21 +16796,69 @@ exports.ColorMapper = (function (superClass) {
         return new_palette;
     };
     return ColorMapper;
-})(transform_1.Transform);
+})(model_1.Model);
 
-},{"../transforms/transform":"models/transforms/transform","core/properties":"core/properties","core/util/types":"core/util/types"}],"models/mappers/index":[function(require,module,exports){
+},{"../../model":"model","core/properties":"core/properties","core/util/types":"core/util/types"}],"models/mappers/grid_mapper":[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var extend = function (child, parent) { for (var key in parent) {
+    if (hasProp.call(parent, key))
+        child[key] = parent[key];
+} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
+var model_1 = require("../../model");
+exports.GridMapper = (function (superClass) {
+    extend(GridMapper, superClass);
+    function GridMapper() {
+        return GridMapper.__super__.constructor.apply(this, arguments);
+    }
+    GridMapper.prototype.map_to_target = function (x, y) {
+        var xprime, yprime;
+        xprime = this.domain_mapper.map_to_target(x);
+        yprime = this.codomain_mapper.map_to_target(y);
+        return [xprime, yprime];
+    };
+    GridMapper.prototype.v_map_to_target = function (xs, ys) {
+        var xprimes, yprimes;
+        xprimes = this.domain_mapper.v_map_to_target(xs);
+        yprimes = this.codomain_mapper.v_map_to_target(ys);
+        return [xprimes, yprimes];
+    };
+    GridMapper.prototype.map_from_target = function (xprime, yprime) {
+        var x, y;
+        x = this.domain_mapper.map_from_target(xprime);
+        y = this.codomain_mapper.map_from_target(yprime);
+        return [x, y];
+    };
+    GridMapper.prototype.v_map_from_target = function (xprimes, yprimes) {
+        var xs, ys;
+        xs = this.domain_mapper.v_map_from_target(xprimes);
+        ys = this.codomain_mapper.v_map_from_target(yprimes);
+        return [xs, ys];
+    };
+    return GridMapper;
+})(model_1.Model);
+
+},{"../../model":"model"}],"models/mappers/index":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var categorical_color_mapper_1 = require("./categorical_color_mapper");
 exports.CategoricalColorMapper = categorical_color_mapper_1.CategoricalColorMapper;
+var categorical_mapper_1 = require("./categorical_mapper");
+exports.CategoricalMapper = categorical_mapper_1.CategoricalMapper;
 var color_mapper_1 = require("./color_mapper");
 exports.ColorMapper = color_mapper_1.ColorMapper;
+var grid_mapper_1 = require("./grid_mapper");
+exports.GridMapper = grid_mapper_1.GridMapper;
 var linear_color_mapper_1 = require("./linear_color_mapper");
 exports.LinearColorMapper = linear_color_mapper_1.LinearColorMapper;
+var linear_mapper_1 = require("./linear_mapper");
+exports.LinearMapper = linear_mapper_1.LinearMapper;
 var log_color_mapper_1 = require("./log_color_mapper");
 exports.LogColorMapper = log_color_mapper_1.LogColorMapper;
+var log_mapper_1 = require("./log_mapper");
+exports.LogMapper = log_mapper_1.LogMapper;
 
-},{"./categorical_color_mapper":"models/mappers/categorical_color_mapper","./color_mapper":"models/mappers/color_mapper","./linear_color_mapper":"models/mappers/linear_color_mapper","./log_color_mapper":"models/mappers/log_color_mapper"}],"models/mappers/linear_color_mapper":[function(require,module,exports){
+},{"./categorical_color_mapper":"models/mappers/categorical_color_mapper","./categorical_mapper":"models/mappers/categorical_mapper","./color_mapper":"models/mappers/color_mapper","./grid_mapper":"models/mappers/grid_mapper","./linear_color_mapper":"models/mappers/linear_color_mapper","./linear_mapper":"models/mappers/linear_mapper","./log_color_mapper":"models/mappers/log_color_mapper","./log_mapper":"models/mappers/log_mapper"}],"models/mappers/linear_color_mapper":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var extend = function (child, parent) { for (var key in parent) {
@@ -16740,7 +16938,80 @@ exports.LinearColorMapper = (function (superClass) {
     return LinearColorMapper;
 })(color_mapper_1.ColorMapper);
 
-},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties","core/util/array":"core/util/array","core/util/color":"core/util/color"}],"models/mappers/log_color_mapper":[function(require,module,exports){
+},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties","core/util/array":"core/util/array","core/util/color":"core/util/color"}],"models/mappers/linear_mapper":[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var extend = function (child, parent) { for (var key in parent) {
+    if (hasProp.call(parent, key))
+        child[key] = parent[key];
+} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
+var model_1 = require("../../model");
+var p = require("core/properties");
+exports.LinearMapper = (function (superClass) {
+    extend(LinearMapper, superClass);
+    function LinearMapper() {
+        return LinearMapper.__super__.constructor.apply(this, arguments);
+    }
+    LinearMapper.prototype.initialize = function (attrs, options) {
+        LinearMapper.__super__.initialize.call(this, attrs, options);
+        this.define_computed_property('mapper_state', this._mapper_state, true);
+        this.add_dependencies('mapper_state', this, ['source_range', 'target_range']);
+        this.add_dependencies('mapper_state', this.source_range, ['start', 'end']);
+        return this.add_dependencies('mapper_state', this.target_range, ['start', 'end']);
+    };
+    LinearMapper.getters({
+        mapper_state: function () {
+            return this._get_computed('mapper_state');
+        }
+    });
+    LinearMapper.prototype.map_to_target = function (x) {
+        var offset, ref, scale;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1];
+        return scale * x + offset;
+    };
+    LinearMapper.prototype.v_map_to_target = function (xs) {
+        var i, idx, len, offset, ref, result, scale, x;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1];
+        result = new Float64Array(xs.length);
+        for (idx = i = 0, len = xs.length; i < len; idx = ++i) {
+            x = xs[idx];
+            result[idx] = scale * x + offset;
+        }
+        return result;
+    };
+    LinearMapper.prototype.map_from_target = function (xprime) {
+        var offset, ref, scale;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1];
+        return (xprime - offset) / scale;
+    };
+    LinearMapper.prototype.v_map_from_target = function (xprimes) {
+        var i, idx, len, offset, ref, result, scale, xprime;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1];
+        result = new Float64Array(xprimes.length);
+        for (idx = i = 0, len = xprimes.length; i < len; idx = ++i) {
+            xprime = xprimes[idx];
+            result[idx] = (xprime - offset) / scale;
+        }
+        return result;
+    };
+    LinearMapper.prototype._mapper_state = function () {
+        var offset, scale, source_end, source_start, target_end, target_start;
+        source_start = this.source_range.start;
+        source_end = this.source_range.end;
+        target_start = this.target_range.start;
+        target_end = this.target_range.end;
+        scale = (target_end - target_start) / (source_end - source_start);
+        offset = -(scale * source_start) + target_start;
+        return [scale, offset];
+    };
+    LinearMapper.internal({
+        source_range: [p.Any],
+        target_range: [p.Any]
+    });
+    return LinearMapper;
+})(model_1.Model);
+
+},{"../../model":"model","core/properties":"core/properties"}],"models/mappers/log_color_mapper":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var log1p, ref, extend = function (child, parent) { for (var key in parent) {
@@ -16826,7 +17097,147 @@ exports.LogColorMapper = (function (superClass) {
     return LogColorMapper;
 })(color_mapper_1.ColorMapper);
 
-},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties","core/util/array":"core/util/array","core/util/color":"core/util/color"}],"models/markers/index":[function(require,module,exports){
+},{"./color_mapper":"models/mappers/color_mapper","core/properties":"core/properties","core/util/array":"core/util/array","core/util/color":"core/util/color"}],"models/mappers/log_mapper":[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var extend = function (child, parent) { for (var key in parent) {
+    if (hasProp.call(parent, key))
+        child[key] = parent[key];
+} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
+var model_1 = require("../../model");
+var p = require("core/properties");
+exports.LogMapper = (function (superClass) {
+    extend(LogMapper, superClass);
+    function LogMapper() {
+        return LogMapper.__super__.constructor.apply(this, arguments);
+    }
+    LogMapper.prototype.initialize = function (attrs, options) {
+        LogMapper.__super__.initialize.call(this, attrs, options);
+        this.define_computed_property('mapper_state', this._mapper_state, true);
+        this.add_dependencies('mapper_state', this, ['source_range', 'target_range']);
+        this.add_dependencies('mapper_state', this.source_range, ['start', 'end']);
+        return this.add_dependencies('mapper_state', this.target_range, ['start', 'end']);
+    };
+    LogMapper.getters({
+        mapper_state: function () {
+            return this._get_computed('mapper_state');
+        }
+    });
+    LogMapper.prototype.map_to_target = function (x) {
+        var _x, inter_offset, inter_scale, offset, ref, scale, value;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1], inter_scale = ref[2], inter_offset = ref[3];
+        if (inter_scale === 0) {
+            value = 0;
+        }
+        else {
+            _x = (Math.log(x) - inter_offset) / inter_scale;
+            if (isFinite(_x)) {
+                value = _x * scale + offset;
+            }
+            else {
+                value = 0 / 0;
+            }
+        }
+        return value;
+    };
+    LogMapper.prototype.v_map_to_target = function (xs) {
+        var _x, i, inter_offset, inter_scale, j, k, offset, ref, ref1, ref2, result, scale, value;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1], inter_scale = ref[2], inter_offset = ref[3];
+        result = new Float64Array(xs.length);
+        if (inter_scale === 0) {
+            for (i = j = 0, ref1 = xs.length; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
+                result[i] = 0;
+            }
+        }
+        else {
+            for (i = k = 0, ref2 = xs.length; 0 <= ref2 ? k < ref2 : k > ref2; i = 0 <= ref2 ? ++k : --k) {
+                _x = (Math.log(xs[i]) - inter_offset) / inter_scale;
+                if (isFinite(_x)) {
+                    value = _x * scale + offset;
+                }
+                else {
+                    value = 0 / 0;
+                }
+                result[i] = value;
+            }
+        }
+        return result;
+    };
+    LogMapper.prototype.map_from_target = function (xprime) {
+        var inter_offset, inter_scale, offset, ref, scale, value;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1], inter_scale = ref[2], inter_offset = ref[3];
+        value = (xprime - offset) / scale;
+        return Math.exp(inter_scale * value + inter_offset);
+    };
+    LogMapper.prototype.v_map_from_target = function (xprimes) {
+        var i, inter_offset, inter_scale, j, offset, ref, ref1, result, scale, value;
+        ref = this.mapper_state, scale = ref[0], offset = ref[1], inter_scale = ref[2], inter_offset = ref[3];
+        result = new Float64Array(xprimes.length);
+        for (i = j = 0, ref1 = xprimes.length; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
+            value = (xprimes[i] - offset) / scale;
+            result[i] = Math.exp(inter_scale * value + inter_offset);
+        }
+        return result;
+    };
+    LogMapper.prototype._get_safe_scale = function (orig_start, orig_end) {
+        var end, log_val, ref, start;
+        if (orig_start < 0) {
+            start = 0;
+        }
+        else {
+            start = orig_start;
+        }
+        if (orig_end < 0) {
+            end = 0;
+        }
+        else {
+            end = orig_end;
+        }
+        if (start === end) {
+            if (start === 0) {
+                ref = [1, 10], start = ref[0], end = ref[1];
+            }
+            else {
+                log_val = Math.log(start) / Math.log(10);
+                start = Math.pow(10, Math.floor(log_val));
+                if (Math.ceil(log_val) !== Math.floor(log_val)) {
+                    end = Math.pow(10, Math.ceil(log_val));
+                }
+                else {
+                    end = Math.pow(10, Math.ceil(log_val) + 1);
+                }
+            }
+        }
+        return [start, end];
+    };
+    LogMapper.prototype._mapper_state = function () {
+        var end, inter_offset, inter_scale, offset, ref, scale, screen_range, source_end, source_start, start, target_end, target_start;
+        source_start = this.source_range.start;
+        source_end = this.source_range.end;
+        target_start = this.target_range.start;
+        target_end = this.target_range.end;
+        screen_range = target_end - target_start;
+        ref = this._get_safe_scale(source_start, source_end), start = ref[0], end = ref[1];
+        if (start === 0) {
+            inter_scale = Math.log(end);
+            inter_offset = 0;
+        }
+        else {
+            inter_scale = Math.log(end) - Math.log(start);
+            inter_offset = Math.log(start);
+        }
+        scale = screen_range;
+        offset = target_start;
+        return [scale, offset, inter_scale, inter_offset];
+    };
+    LogMapper.internal({
+        source_range: [p.Any],
+        target_range: [p.Any]
+    });
+    return LogMapper;
+})(model_1.Model);
+
+},{"../../model":"model","core/properties":"core/properties"}],"models/markers/index":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SQ3, _mk_model, _one_cross, _one_diamond, _one_tri, _one_x, asterisk, circle_cross, circle_x, cross, diamond, diamond_cross, inverted_triangle, square, square_cross, square_x, triangle, x, extend = function (child, parent) { for (var key in parent) {
@@ -17095,11 +17506,11 @@ exports.MarkerView = (function (superClass) {
         hr = this.renderer.plot_view.frame.h_range;
         vx0 = hr.start - this.max_size;
         vx1 = hr.end + this.max_size;
-        ref = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref[0], x1 = ref[1];
+        ref = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref[0], x1 = ref[1];
         vr = this.renderer.plot_view.frame.v_range;
         vy0 = vr.start - this.max_size;
         vy1 = vr.end + this.max_size;
-        ref1 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref1[0], y1 = ref1[1];
+        ref1 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref1[0], y1 = ref1[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         return this.index.indices(bbox);
     };
@@ -17110,10 +17521,10 @@ exports.MarkerView = (function (superClass) {
         sy = this.renderer.plot_view.canvas.vy_to_sy(vy);
         vx0 = vx - this.max_size;
         vx1 = vx + this.max_size;
-        ref1 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
+        ref1 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref1[0], x1 = ref1[1];
         vy0 = vy - this.max_size;
         vy1 = vy + this.max_size;
-        ref2 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
+        ref2 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref2[0], y1 = ref2[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         candidates = this.index.indices(bbox);
         hits = [];
@@ -17138,7 +17549,7 @@ exports.MarkerView = (function (superClass) {
             ms = this.max_size / 2;
             vx0 = vx - ms;
             vx1 = vx + ms;
-            ref2 = this.renderer.xscale.v_invert([vx0, vx1], true), x0 = ref2[0], x1 = ref2[1];
+            ref2 = this.renderer.xmapper.v_map_from_target([vx0, vx1], true), x0 = ref2[0], x1 = ref2[1];
         }
         else {
             x0 = minX;
@@ -17146,7 +17557,7 @@ exports.MarkerView = (function (superClass) {
             ms = this.max_size / 2;
             vy0 = vy - ms;
             vy1 = vy + ms;
-            ref3 = this.renderer.yscale.v_invert([vy0, vy1], true), y0 = ref3[0], y1 = ref3[1];
+            ref3 = this.renderer.ymapper.v_map_from_target([vy0, vy1], true), y0 = ref3[0], y1 = ref3[1];
         }
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         hits = this.index.indices(bbox);
@@ -17155,8 +17566,8 @@ exports.MarkerView = (function (superClass) {
     };
     MarkerView.prototype._hit_rect = function (geometry) {
         var bbox, ref, ref1, result, x0, x1, y0, y1;
-        ref = this.renderer.xscale.v_invert([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
-        ref1 = this.renderer.yscale.v_invert([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
+        ref = this.renderer.xmapper.v_map_from_target([geometry.vx0, geometry.vx1], true), x0 = ref[0], x1 = ref[1];
+        ref1 = this.renderer.ymapper.v_map_from_target([geometry.vy0, geometry.vy1], true), y0 = ref1[0], y1 = ref1[1];
         bbox = hittest.validate_bbox_coords([x0, x1], [y0, y1]);
         result = hittest.create_hit_test_result();
         result['1d'].indices = this.index.indices(bbox);
@@ -17512,8 +17923,8 @@ exports.GMapPlotCanvasView = (function (superClass) {
     };
     GMapPlotCanvasView.prototype._paint_empty = function (ctx, frame_box) {
         var ih, iw, left, oh, ow, top;
-        ow = this.canvas._width.value;
-        oh = this.canvas._height.value;
+        ow = this.canvas.width;
+        oh = this.canvas.height;
         left = frame_box[0], top = frame_box[1], iw = frame_box[2], ih = frame_box[3];
         ctx.clearRect(0, 0, ow, oh);
         ctx.beginPath();
@@ -17607,10 +18018,10 @@ exports.PlotView = (function (superClass) {
             this.solver.suggest_value(this.model._width, width);
             this.solver.suggest_value(this.model._height, height);
             this.el.style.position = 'absolute';
-            this.el.style.left = this.model._dom_left.value + "px";
-            this.el.style.top = this.model._dom_top.value + "px";
-            this.el.style.width = this.model._width.value + "px";
-            return this.el.style.height = this.model._height.value + "px";
+            this.el.style.left = this.model._dom_left._value + "px";
+            this.el.style.top = this.model._dom_top._value + "px";
+            this.el.style.width = (this.model._width.value()) + "px";
+            return this.el.style.height = (this.model._height.value()) + "px";
         }
     };
     PlotView.prototype.get_width_height = function () {
@@ -17633,10 +18044,10 @@ exports.PlotView = (function (superClass) {
         return [width, height];
     };
     PlotView.prototype.get_height = function () {
-        return this.model._width.value / this.model.get_aspect_ratio();
+        return this.model._width._value / this.model.get_aspect_ratio();
     };
     PlotView.prototype.get_width = function () {
-        return this.model._height.value * this.model.get_aspect_ratio();
+        return this.model._height._value * this.model.get_aspect_ratio();
     };
     PlotView.prototype.save = function (name) {
         var view;
@@ -18089,11 +18500,15 @@ exports.PlotCanvasView = (function (superClass) {
             range: null,
             selection: {},
             dimensions: {
-                width: this.model.canvas._width.value,
-                height: this.model.canvas._height.value
+                width: this.model.canvas.width,
+                height: this.model.canvas.height
             }
         };
         this.frame = this.model.frame;
+        this.x_range = this.frame.x_ranges['default'];
+        this.y_range = this.frame.y_ranges['default'];
+        this.xmapper = this.frame.x_mappers['default'];
+        this.ymapper = this.frame.y_mappers['default'];
         this.canvas = this.model.canvas;
         this.canvas_view = new this.canvas.default_view({
             model: this.canvas,
@@ -18195,7 +18610,7 @@ exports.PlotCanvasView = (function (superClass) {
         for (j = 0, len = ref.length; j < len; j++) {
             r = ref[j];
             if (r instanceof data_range1d_1.DataRange1d) {
-                if (r.scale_hint === "log") {
+                if (r.mapper_hint === "log") {
                     calculate_log_bounds = true;
                 }
             }
@@ -18220,7 +18635,7 @@ exports.PlotCanvasView = (function (superClass) {
         for (l = 0, len1 = ref4.length; l < len1; l++) {
             xr = ref4[l];
             if (xr instanceof data_range1d_1.DataRange1d) {
-                bounds_to_use = xr.scale_hint === "log" ? log_bounds : bounds;
+                bounds_to_use = xr.mapper_hint === "log" ? log_bounds : bounds;
                 xr.update(bounds_to_use, 0, this.model.id);
                 if (xr.follow) {
                     follow_enabled = true;
@@ -18234,7 +18649,7 @@ exports.PlotCanvasView = (function (superClass) {
         for (m = 0, len2 = ref5.length; m < len2; m++) {
             yr = ref5[m];
             if (yr instanceof data_range1d_1.DataRange1d) {
-                bounds_to_use = yr.scale_hint === "log" ? log_bounds : bounds;
+                bounds_to_use = yr.mapper_hint === "log" ? log_bounds : bounds;
                 yr.update(bounds_to_use, 1, this.model.id);
                 if (yr.follow) {
                     follow_enabled = true;
@@ -18609,10 +19024,10 @@ exports.PlotCanvasView = (function (superClass) {
         this.listenTo(this.solver, 'layout_update', (function (_this) {
             return function () {
                 return _this.model.plot.setv({
-                    inner_width: Math.round(_this.frame._width.value),
-                    inner_height: Math.round(_this.frame._height.value),
-                    layout_width: Math.round(_this.canvas._width.value),
-                    layout_height: Math.round(_this.canvas._height.value)
+                    inner_width: Math.round(_this.frame.width),
+                    inner_height: Math.round(_this.frame.height),
+                    layout_width: Math.round(_this.canvas.width),
+                    layout_height: Math.round(_this.canvas.height)
                 }, {
                     no_change: true
                 });
@@ -18695,10 +19110,10 @@ exports.PlotCanvasView = (function (superClass) {
         this.canvas_view.prepare_canvas();
         this.update_constraints();
         this.el.style.position = 'absolute';
-        this.el.style.left = this.model._dom_left.value + "px";
-        this.el.style.top = this.model._dom_top.value + "px";
-        this.el.style.width = this.model._width.value + "px";
-        this.el.style.height = this.model._height.value + "px";
+        this.el.style.left = this.model._dom_left._value + "px";
+        this.el.style.top = this.model._dom_top._value + "px";
+        this.el.style.width = this.model._width._value + "px";
+        this.el.style.height = this.model._height._value + "px";
         ref = this.renderer_views;
         for (k in ref) {
             v = ref[k];
@@ -18707,13 +19122,13 @@ exports.PlotCanvasView = (function (superClass) {
                 break;
             }
         }
-        this.model.frame._update_scales();
+        this.model.frame._update_mappers();
         ctx = this.canvas_view.ctx;
         ctx.pixel_ratio = ratio = this.canvas.pixel_ratio;
         ctx.save();
         ctx.scale(ratio, ratio);
         ctx.translate(0.5, 0.5);
-        frame_box = [this.canvas.vx_to_sx(this.frame._left.value), this.canvas.vy_to_sy(this.frame._top.value), this.frame._width.value, this.frame._height.value];
+        frame_box = [this.canvas.vx_to_sx(this.frame.left), this.canvas.vy_to_sy(this.frame.top), this.frame.width, this.frame.height];
         this._map_hook(ctx, frame_box);
         this._paint_empty(ctx, frame_box);
         this.prepare_webgl(ratio, frame_box);
@@ -18738,15 +19153,15 @@ exports.PlotCanvasView = (function (superClass) {
     };
     PlotCanvasView.prototype._on_resize = function () {
         var height, width;
-        width = this.model._width.value;
-        height = this.model._height.value;
+        width = this.model._width._value;
+        height = this.model._height._value;
         this.canvas_view.set_dims([width, height]);
         return this.update_constraints();
     };
     PlotCanvasView.prototype.update_constraints = function () {
         var model_id, ref, view;
-        this.solver.suggest_value(this.frame._width, this.canvas._width.value - 1);
-        this.solver.suggest_value(this.frame._height, this.canvas._height.value - 1);
+        this.solver.suggest_value(this.frame._width, this.canvas.width - 1);
+        this.solver.suggest_value(this.frame._height, this.canvas.height - 1);
         ref = this.renderer_views;
         for (model_id in ref) {
             view = ref[model_id];
@@ -18786,10 +19201,10 @@ exports.PlotCanvasView = (function (superClass) {
     };
     PlotCanvasView.prototype._map_hook = function (ctx, frame_box) { };
     PlotCanvasView.prototype._paint_empty = function (ctx, frame_box) {
-        ctx.clearRect(0, 0, this.canvas_view.model._width.value, this.canvas_view.model._height.value);
+        ctx.clearRect(0, 0, this.canvas_view.model.width, this.canvas_view.model.height);
         if (this.visuals.border_fill.doit) {
             this.visuals.border_fill.set_value(ctx);
-            ctx.fillRect(0, 0, this.canvas_view.model._width.value, this.canvas_view.model._height.value);
+            ctx.fillRect(0, 0, this.canvas_view.model.width, this.canvas_view.model.height);
             ctx.clearRect.apply(ctx, frame_box);
         }
         if (this.visuals.background_fill.doit) {
@@ -19010,7 +19425,7 @@ exports.DataRange1d = (function (superClass) {
         max_interval: [p.Any]
     });
     DataRange1d.internal({
-        scale_hint: [p.String, 'auto']
+        mapper_hint: [p.String, 'auto']
     });
     DataRange1d.prototype.initialize = function (attrs, options) {
         DataRange1d.__super__.initialize.call(this, attrs, options);
@@ -19105,7 +19520,7 @@ exports.DataRange1d = (function (superClass) {
         var center, end, follow_interval, follow_sign, log_max, log_min, range_padding, ref, ref1, ref2, ref3, span, start;
         range_padding = this.range_padding;
         if ((range_padding != null) && range_padding > 0) {
-            if (this.scale_hint === "log") {
+            if (this.mapper_hint === "log") {
                 if (isNaN(min) || !isFinite(min) || min <= 0) {
                     if (isNaN(max) || !isFinite(max) || max <= 0) {
                         min = 0.1;
@@ -19188,7 +19603,7 @@ exports.DataRange1d = (function (superClass) {
         ref = this._compute_min_max(this.plot_bounds, dimension), min = ref[0], max = ref[1];
         ref1 = this._compute_range(min, max), start = ref1[0], end = ref1[1];
         if (this._initial_start != null) {
-            if (this.scale_hint === "log") {
+            if (this.mapper_hint === "log") {
                 if (this._initial_start > 0) {
                     start = this._initial_start;
                 }
@@ -19198,7 +19613,7 @@ exports.DataRange1d = (function (superClass) {
             }
         }
         if (this._initial_end != null) {
-            if (this.scale_hint === "log") {
+            if (this.mapper_hint === "log") {
                 if (this._initial_end > 0) {
                     end = this._initial_end;
                 }
@@ -19533,23 +19948,13 @@ exports.GlyphRendererView = (function (superClass) {
         }
         decimated_glyph = mk_glyph(this.model.decimated_defaults);
         this.decimated_glyph = this.build_glyph_view(decimated_glyph);
-        this.xscale = this.plot_view.frame.xscales[this.model.x_range_name];
-        this.yscale = this.plot_view.frame.yscales[this.model.y_range_name];
+        this.xmapper = this.plot_view.frame.x_mappers[this.model.x_range_name];
+        this.ymapper = this.plot_view.frame.y_mappers[this.model.y_range_name];
         this.set_data(false);
         if (this.model.data_source instanceof remote_data_source_1.RemoteDataSource) {
             return this.model.data_source.setup(this.plot_view, this.glyph);
         }
     };
-    GlyphRendererView.getters({
-        xmapper: function () {
-            log.warning("xmapper attr is deprecated, use xscale");
-            return this.xscale;
-        },
-        ymapper: function () {
-            log.warning("ymapper attr is deprecated, use yscale");
-            return this.yscale;
-        }
-    });
     GlyphRendererView.prototype.build_glyph_view = function (model) {
         return new model.default_view({
             model: model,
@@ -19911,378 +20316,7 @@ exports.Renderer = (function (superClass) {
     return Renderer;
 })(model_1.Model);
 
-},{"../../model":"model","core/dom_view":"core/dom_view","core/properties":"core/properties","core/util/object":"core/util/object","core/util/projections":"core/util/projections","core/visuals":"core/visuals"}],"models/scales/categorical_scale":[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var extend = function (child, parent) { for (var key in parent) {
-    if (hasProp.call(parent, key))
-        child[key] = parent[key];
-} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
-var linear_scale_1 = require("./linear_scale");
-var types_1 = require("core/util/types");
-exports.CategoricalScale = (function (superClass) {
-    extend(CategoricalScale, superClass);
-    function CategoricalScale() {
-        return CategoricalScale.__super__.constructor.apply(this, arguments);
-    }
-    CategoricalScale.prototype.compute = function (x, return_synthetic) {
-        var factor, factors, percent, range, ref, result;
-        if (return_synthetic == null) {
-            return_synthetic = false;
-        }
-        if (types_1.isNumber(x)) {
-            if (return_synthetic) {
-                return x;
-            }
-            else {
-                return CategoricalScale.__super__.compute.call(this, x);
-            }
-        }
-        range = this.source_range;
-        factors = range.factors;
-        if (x.indexOf(':') >= 0) {
-            ref = x.split(':'), factor = ref[0], percent = ref[1];
-            percent = parseFloat(percent);
-            result = factors.indexOf(factor) + 0.5 + range.offset + percent;
-        }
-        else {
-            result = factors.indexOf(x) + 1 + range.offset;
-        }
-        if (return_synthetic) {
-            return result;
-        }
-        else {
-            return CategoricalScale.__super__.compute.call(this, result);
-        }
-    };
-    CategoricalScale.prototype.v_compute = function (xs, return_synthetic) {
-        var factor, factors, i, j, percent, range, ref, ref1, results, x;
-        if (return_synthetic == null) {
-            return_synthetic = false;
-        }
-        if (types_1.isNumber(xs[0])) {
-            if (return_synthetic) {
-                return xs;
-            }
-            else {
-                return CategoricalScale.__super__.v_compute.call(this, xs);
-            }
-        }
-        range = this.source_range;
-        factors = range.factors;
-        results = Array(xs.length);
-        for (i = j = 0, ref = xs.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-            x = xs[i];
-            if (x.indexOf(':') >= 0) {
-                ref1 = x.split(':'), factor = ref1[0], percent = ref1[1];
-                percent = parseFloat(percent);
-                results[i] = factors.indexOf(factor) + 0.5 + range.offset + percent;
-            }
-            else {
-                results[i] = factors.indexOf(x) + 1 + range.offset;
-            }
-        }
-        if (return_synthetic) {
-            return results;
-        }
-        else {
-            return CategoricalScale.__super__.v_compute.call(this, results);
-        }
-    };
-    CategoricalScale.prototype.invert = function (xprime, skip_cat) {
-        var factors, range;
-        if (skip_cat == null) {
-            skip_cat = false;
-        }
-        xprime = CategoricalScale.__super__.invert.call(this, xprime);
-        if (skip_cat) {
-            return xprime;
-        }
-        range = this.source_range;
-        factors = range.factors;
-        return factors[Math.floor(xprime - 0.5 - range.offset)];
-    };
-    CategoricalScale.prototype.v_invert = function (xprimes, skip_cat) {
-        var factors, i, j, k, range, ref, ref1, result, x;
-        if (skip_cat == null) {
-            skip_cat = false;
-        }
-        x = CategoricalScale.__super__.v_invert.call(this, xprimes);
-        for (i = j = 0, ref = x.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-            x[i] = x[i];
-        }
-        if (skip_cat) {
-            return x;
-        }
-        result = Array(x);
-        range = this.source_range;
-        factors = range.factors;
-        for (i = k = 0, ref1 = xprimes.length; 0 <= ref1 ? k < ref1 : k > ref1; i = 0 <= ref1 ? ++k : --k) {
-            result[i] = factors[Math.floor(x[i] - 0.5 - range.offset)];
-        }
-        return result;
-    };
-    return CategoricalScale;
-})(linear_scale_1.LinearScale);
-
-},{"./linear_scale":"models/scales/linear_scale","core/util/types":"core/util/types"}],"models/scales/index":[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var categorical_scale_1 = require("./categorical_scale");
-exports.CategoricalScale = categorical_scale_1.CategoricalScale;
-var linear_scale_1 = require("./linear_scale");
-exports.LinearScale = linear_scale_1.LinearScale;
-var log_scale_1 = require("./log_scale");
-exports.LogScale = log_scale_1.LogScale;
-var scale_1 = require("./scale");
-exports.Scale = scale_1.Scale;
-
-},{"./categorical_scale":"models/scales/categorical_scale","./linear_scale":"models/scales/linear_scale","./log_scale":"models/scales/log_scale","./scale":"models/scales/scale"}],"models/scales/linear_scale":[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var extend = function (child, parent) { for (var key in parent) {
-    if (hasProp.call(parent, key))
-        child[key] = parent[key];
-} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
-var scale_1 = require("./scale");
-var p = require("core/properties");
-exports.LinearScale = (function (superClass) {
-    extend(LinearScale, superClass);
-    function LinearScale() {
-        return LinearScale.__super__.constructor.apply(this, arguments);
-    }
-    LinearScale.prototype.initialize = function (attrs, options) {
-        LinearScale.__super__.initialize.call(this, attrs, options);
-        this.define_computed_property('state', this._state, true);
-        this.add_dependencies('state', this, ['source_range', 'target_range']);
-        this.add_dependencies('state', this.source_range, ['start', 'end']);
-        return this.add_dependencies('state', this.target_range, ['start', 'end']);
-    };
-    LinearScale.getters({
-        state: function () {
-            return this._get_computed('state');
-        }
-    });
-    LinearScale.prototype.compute = function (x) {
-        var factor, offset, ref;
-        ref = this.state, factor = ref[0], offset = ref[1];
-        return factor * x + offset;
-    };
-    LinearScale.prototype.v_compute = function (xs) {
-        var factor, i, idx, len, offset, ref, result, x;
-        ref = this.state, factor = ref[0], offset = ref[1];
-        result = new Float64Array(xs.length);
-        for (idx = i = 0, len = xs.length; i < len; idx = ++i) {
-            x = xs[idx];
-            result[idx] = factor * x + offset;
-        }
-        return result;
-    };
-    LinearScale.prototype.invert = function (xprime) {
-        var factor, offset, ref;
-        ref = this.state, factor = ref[0], offset = ref[1];
-        return (xprime - offset) / factor;
-    };
-    LinearScale.prototype.v_invert = function (xprimes) {
-        var factor, i, idx, len, offset, ref, result, xprime;
-        ref = this.state, factor = ref[0], offset = ref[1];
-        result = new Float64Array(xprimes.length);
-        for (idx = i = 0, len = xprimes.length; i < len; idx = ++i) {
-            xprime = xprimes[idx];
-            result[idx] = (xprime - offset) / factor;
-        }
-        return result;
-    };
-    LinearScale.prototype._state = function () {
-        var factor, offset, source_end, source_start, target_end, target_start;
-        source_start = this.source_range.start;
-        source_end = this.source_range.end;
-        target_start = this.target_range.start;
-        target_end = this.target_range.end;
-        factor = (target_end - target_start) / (source_end - source_start);
-        offset = -(factor * source_start) + target_start;
-        return [factor, offset];
-    };
-    LinearScale.internal({
-        source_range: [p.Any],
-        target_range: [p.Any]
-    });
-    return LinearScale;
-})(scale_1.Scale);
-
-},{"./scale":"models/scales/scale","core/properties":"core/properties"}],"models/scales/log_scale":[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var extend = function (child, parent) { for (var key in parent) {
-    if (hasProp.call(parent, key))
-        child[key] = parent[key];
-} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty;
-var scale_1 = require("./scale");
-var p = require("core/properties");
-exports.LogScale = (function (superClass) {
-    extend(LogScale, superClass);
-    function LogScale() {
-        return LogScale.__super__.constructor.apply(this, arguments);
-    }
-    LogScale.prototype.initialize = function (attrs, options) {
-        LogScale.__super__.initialize.call(this, attrs, options);
-        this.define_computed_property('state', this._state, true);
-        this.add_dependencies('state', this, ['source_range', 'target_range']);
-        this.add_dependencies('state', this.source_range, ['start', 'end']);
-        return this.add_dependencies('state', this.target_range, ['start', 'end']);
-    };
-    LogScale.getters({
-        state: function () {
-            return this._get_computed('state');
-        }
-    });
-    LogScale.prototype.compute = function (x) {
-        var _x, factor, inter_factor, inter_offset, offset, ref, value;
-        ref = this.state, factor = ref[0], offset = ref[1], inter_factor = ref[2], inter_offset = ref[3];
-        if (inter_factor === 0) {
-            value = 0;
-        }
-        else {
-            _x = (Math.log(x) - inter_offset) / inter_factor;
-            if (isFinite(_x)) {
-                value = _x * factor + offset;
-            }
-            else {
-                value = 0 / 0;
-            }
-        }
-        return value;
-    };
-    LogScale.prototype.v_compute = function (xs) {
-        var _x, factor, i, inter_factor, inter_offset, j, k, offset, ref, ref1, ref2, result, value;
-        ref = this.state, factor = ref[0], offset = ref[1], inter_factor = ref[2], inter_offset = ref[3];
-        result = new Float64Array(xs.length);
-        if (inter_factor === 0) {
-            for (i = j = 0, ref1 = xs.length; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
-                result[i] = 0;
-            }
-        }
-        else {
-            for (i = k = 0, ref2 = xs.length; 0 <= ref2 ? k < ref2 : k > ref2; i = 0 <= ref2 ? ++k : --k) {
-                _x = (Math.log(xs[i]) - inter_offset) / inter_factor;
-                if (isFinite(_x)) {
-                    value = _x * factor + offset;
-                }
-                else {
-                    value = 0 / 0;
-                }
-                result[i] = value;
-            }
-        }
-        return result;
-    };
-    LogScale.prototype.invert = function (xprime) {
-        var factor, inter_factor, inter_offset, offset, ref, value;
-        ref = this.state, factor = ref[0], offset = ref[1], inter_factor = ref[2], inter_offset = ref[3];
-        value = (xprime - offset) / factor;
-        return Math.exp(inter_factor * value + inter_offset);
-    };
-    LogScale.prototype.v_invert = function (xprimes) {
-        var factor, i, inter_factor, inter_offset, j, offset, ref, ref1, result, value;
-        ref = this.state, factor = ref[0], offset = ref[1], inter_factor = ref[2], inter_offset = ref[3];
-        result = new Float64Array(xprimes.length);
-        for (i = j = 0, ref1 = xprimes.length; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
-            value = (xprimes[i] - offset) / factor;
-            result[i] = Math.exp(inter_factor * value + inter_offset);
-        }
-        return result;
-    };
-    LogScale.prototype._get_safe_factor = function (orig_start, orig_end) {
-        var end, log_val, ref, start;
-        if (orig_start < 0) {
-            start = 0;
-        }
-        else {
-            start = orig_start;
-        }
-        if (orig_end < 0) {
-            end = 0;
-        }
-        else {
-            end = orig_end;
-        }
-        if (start === end) {
-            if (start === 0) {
-                ref = [1, 10], start = ref[0], end = ref[1];
-            }
-            else {
-                log_val = Math.log(start) / Math.log(10);
-                start = Math.pow(10, Math.floor(log_val));
-                if (Math.ceil(log_val) !== Math.floor(log_val)) {
-                    end = Math.pow(10, Math.ceil(log_val));
-                }
-                else {
-                    end = Math.pow(10, Math.ceil(log_val) + 1);
-                }
-            }
-        }
-        return [start, end];
-    };
-    LogScale.prototype._state = function () {
-        var end, factor, inter_factor, inter_offset, offset, ref, screen_range, source_end, source_start, start, target_end, target_start;
-        source_start = this.source_range.start;
-        source_end = this.source_range.end;
-        target_start = this.target_range.start;
-        target_end = this.target_range.end;
-        screen_range = target_end - target_start;
-        ref = this._get_safe_factor(source_start, source_end), start = ref[0], end = ref[1];
-        if (start === 0) {
-            inter_factor = Math.log(end);
-            inter_offset = 0;
-        }
-        else {
-            inter_factor = Math.log(end) - Math.log(start);
-            inter_offset = Math.log(start);
-        }
-        factor = screen_range;
-        offset = target_start;
-        return [factor, offset, inter_factor, inter_offset];
-    };
-    LogScale.internal({
-        source_range: [p.Any],
-        target_range: [p.Any]
-    });
-    return LogScale;
-})(scale_1.Scale);
-
-},{"./scale":"models/scales/scale","core/properties":"core/properties"}],"models/scales/scale":[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var extend = function (child, parent) { for (var key in parent) {
-    if (hasProp.call(parent, key))
-        child[key] = parent[key];
-} function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; }, hasProp = {}.hasOwnProperty, slice = [].slice;
-var transforms_1 = require("../transforms");
-exports.Scale = (function (superClass) {
-    extend(Scale, superClass);
-    function Scale() {
-        return Scale.__super__.constructor.apply(this, arguments);
-    }
-    Scale.prototype.map_to_target = function () {
-        var rest, x;
-        x = arguments[0], rest = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-        return this.compute.apply(this, [x].concat(slice.call(rest)));
-    };
-    Scale.prototype.v_map_to_target = function () {
-        var rest, xs;
-        xs = arguments[0], rest = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-        return this.v_compute.apply(this, [xs].concat(slice.call(rest)));
-    };
-    Scale.prototype.map_from_target = function (xprime) {
-        return this.invert(xprime);
-    };
-    Scale.prototype.v_map_from_target = function (xprimes) {
-        return this.v_invert(xprimes);
-    };
-    return Scale;
-})(transforms_1.Transform);
-
-},{"../transforms":"models/transforms/index"}],"models/sources/ajax_data_source":[function(require,module,exports){
+},{"../../model":"model","core/dom_view":"core/dom_view","core/properties":"core/properties","core/util/object":"core/util/object","core/util/projections":"core/util/projections","core/visuals":"core/visuals"}],"models/sources/ajax_data_source":[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var bind = function (fn, me) { return function () { return fn.apply(me, arguments); }; }, extend = function (child, parent) { for (var key in parent) {
@@ -21838,7 +21872,9 @@ exports.DynamicImageView = (function (superClass) {
         this.map_canvas = this.plot_view.canvas_view.ctx;
         this.map_frame = this.plot_view.frame;
         this.x_range = this.map_plot.x_range;
+        this.x_mapper = this.map_frame.x_mappers['default'];
         this.y_range = this.map_plot.y_range;
+        this.y_mapper = this.map_frame.y_mappers['default'];
         this.lastImage = void 0;
         return this.extent = this.get_extent();
     };
@@ -21857,7 +21893,7 @@ exports.DynamicImageView = (function (superClass) {
     };
     DynamicImageView.prototype._on_image_error = function (e) {
         var image_data;
-        logging_1.logger.error("Error loading image: " + e.target.src);
+        logging_1.logger.error('Error loading image: #{e.target.src}');
         image_data = e.target.image_data;
         return this.model.image_source.remove_image(image_data);
     };
@@ -21873,7 +21909,7 @@ exports.DynamicImageView = (function (superClass) {
             cache_key: bounds.join(':')
         };
         this.model.image_source.add_image(image.image_data);
-        image.src = this.model.image_source.get_image_url(bounds[0], bounds[1], bounds[2], bounds[3], Math.ceil(this.map_frame._height.value), Math.ceil(this.map_frame._width.value));
+        image.src = this.model.image_source.get_image_url(bounds[0], bounds[1], bounds[2], bounds[3], Math.ceil(this.map_frame.height), Math.ceil(this.map_frame.width));
         return image;
     };
     DynamicImageView.prototype.render = function (ctx, indices, args) {
@@ -21927,10 +21963,10 @@ exports.DynamicImageView = (function (superClass) {
     DynamicImageView.prototype._set_rect = function () {
         var h, l, outline_width, t, w;
         outline_width = this.plot_model.plot.properties.outline_line_width.value();
-        l = this.plot_view.canvas.vx_to_sx(this.map_frame._left.value) + (outline_width / 2);
-        t = this.plot_view.canvas.vy_to_sy(this.map_frame._top.value) + (outline_width / 2);
-        w = this.map_frame._width.value - outline_width;
-        h = this.map_frame._height.value - outline_width;
+        l = this.plot_view.canvas.vx_to_sx(this.map_frame.left) + (outline_width / 2);
+        t = this.plot_view.canvas.vy_to_sy(this.map_frame.top) + (outline_width / 2);
+        w = this.map_frame.width - outline_width;
+        h = this.map_frame.height - outline_width;
         this.map_canvas.rect(l, t, w, h);
         return this.map_canvas.clip();
     };
@@ -22511,7 +22547,9 @@ exports.TileRendererView = (function (superClass) {
         this.map_canvas = this.plot_view.canvas_view.ctx;
         this.map_frame = this.plot_model.frame;
         this.x_range = this.map_plot.x_range;
+        this.x_mapper = this.map_frame.x_mappers['default'];
         this.y_range = this.map_plot.y_range;
+        this.y_mapper = this.map_frame.y_mappers['default'];
         this.extent = this.get_extent();
         this._last_height = void 0;
         return this._last_width = void 0;
@@ -22523,8 +22561,8 @@ exports.TileRendererView = (function (superClass) {
             if (this.attributionEl == null) {
                 border_width = this.map_plot.outline_line_width;
                 bottom_offset = this.map_plot.min_border_bottom + border_width;
-                right_offset = this.map_frame._right.value - this.map_frame._width.value;
-                max_width = this.map_frame._width.value - border_width;
+                right_offset = this.map_frame.right - this.map_frame.width;
+                max_width = this.map_frame.width - border_width;
                 this.attributionEl = dom_1.div({
                     "class": 'bk-tile-attribution',
                     style: {
@@ -22546,8 +22584,8 @@ exports.TileRendererView = (function (superClass) {
     TileRendererView.prototype._map_data = function () {
         var new_extent, zoom_level;
         this.initial_extent = this.get_extent();
-        zoom_level = this.model.tile_source.get_level_by_extent(this.initial_extent, this.map_frame._height.value, this.map_frame._width.value);
-        new_extent = this.model.tile_source.snap_to_zoom(this.initial_extent, this.map_frame._height.value, this.map_frame._width.value, zoom_level);
+        zoom_level = this.model.tile_source.get_level_by_extent(this.initial_extent, this.map_frame.height, this.map_frame.width);
+        new_extent = this.model.tile_source.snap_to_zoom(this.initial_extent, this.map_frame.height, this.map_frame.width, zoom_level);
         this.x_range.start = new_extent[0];
         this.y_range.start = new_extent[1];
         this.x_range.end = new_extent[2];
@@ -22602,10 +22640,10 @@ exports.TileRendererView = (function (superClass) {
     };
     TileRendererView.prototype._enforce_aspect_ratio = function () {
         var extent, new_extent, zoom_level;
-        if (this._last_height !== this.map_frame._height.value || this._last_width !== this.map_frame._width.value) {
+        if (this._last_height !== this.map_frame.height || this._last_width !== this.map_frame.width) {
             extent = this.get_extent();
-            zoom_level = this.model.tile_source.get_level_by_extent(extent, this.map_frame._height.value, this.map_frame._width.value);
-            new_extent = this.model.tile_source.snap_to_zoom(extent, this.map_frame._height.value, this.map_frame._width.value, zoom_level);
+            zoom_level = this.model.tile_source.get_level_by_extent(extent, this.map_frame.height, this.map_frame.width);
+            new_extent = this.model.tile_source.snap_to_zoom(extent, this.map_frame.height, this.map_frame.width, zoom_level);
             this.x_range.setv({
                 start: new_extent[0],
                 end: new_extent[2]
@@ -22615,8 +22653,8 @@ exports.TileRendererView = (function (superClass) {
                 end: new_extent[3]
             });
             this.extent = new_extent;
-            this._last_height = this.map_frame._height.value;
-            this._last_width = this.map_frame._width.value;
+            this._last_height = this.map_frame.height;
+            this._last_width = this.map_frame.width;
             return true;
         }
         return false;
@@ -22656,10 +22694,10 @@ exports.TileRendererView = (function (superClass) {
     TileRendererView.prototype._set_rect = function () {
         var h, l, outline_width, t, w;
         outline_width = this.plot_model.plot.properties.outline_line_width.value();
-        l = this.plot_view.canvas.vx_to_sx(this.map_frame._left.value) + (outline_width / 2);
-        t = this.plot_view.canvas.vy_to_sy(this.map_frame._top.value) + (outline_width / 2);
-        w = this.map_frame._width.value - outline_width;
-        h = this.map_frame._height.value - outline_width;
+        l = this.plot_view.canvas.vx_to_sx(this.map_frame.left) + (outline_width / 2);
+        t = this.plot_view.canvas.vy_to_sy(this.map_frame.top) + (outline_width / 2);
+        w = this.map_frame.width - outline_width;
+        h = this.map_frame.height - outline_width;
         this.map_canvas.rect(l, t, w, h);
         return this.map_canvas.clip();
     };
@@ -22678,8 +22716,8 @@ exports.TileRendererView = (function (superClass) {
         var bounds, c, cbounds, children, cx, cy, cz, extent, h, i, ref, results, t, tile_source, tiles, w, x, y, z, zoom_level;
         tile_source = this.model.tile_source;
         extent = this.get_extent();
-        h = this.map_frame._height.value;
-        w = this.map_frame._width.value;
+        h = this.map_frame.height;
+        w = this.map_frame.width;
         zoom_level = this.model.tile_source.get_level_by_extent(extent, h, w);
         tiles = this.model.tile_source.get_tiles_by_extent(extent, zoom_level);
         results = [];
@@ -22722,8 +22760,8 @@ exports.TileRendererView = (function (superClass) {
         tile_source.update();
         extent = this.get_extent();
         zooming_out = this.extent[2] - this.extent[0] < extent[2] - extent[0];
-        h = this.map_frame._height.value;
-        w = this.map_frame._width.value;
+        h = this.map_frame.height;
+        w = this.map_frame.width;
         zoom_level = tile_source.get_level_by_extent(extent, h, w);
         snap_back = false;
         if (zoom_level < min_zoom) {
@@ -23533,7 +23571,7 @@ exports.BoxSelectToolView = (function (superClass) {
         return null;
     };
     BoxSelectToolView.prototype._select = function (arg, arg1, final, append) {
-        var ds, geometry, r, renderers, renderers_by_source, sm, vx0, vx1, vy0, vy1;
+        var ds, geometry, i, len, r, ref, sm, vx0, vx1, vy0, vy1;
         vx0 = arg[0], vx1 = arg[1];
         vy0 = arg1[0], vy1 = arg1[1];
         if (append == null) {
@@ -23546,19 +23584,12 @@ exports.BoxSelectToolView = (function (superClass) {
             vy0: vy0,
             vy1: vy1
         };
-        renderers_by_source = this.model._computed_renderers_by_data_source();
-        for (ds in renderers_by_source) {
-            renderers = renderers_by_source[ds];
-            sm = renderers[0].data_source.selection_manager;
-            sm.select(this, (function () {
-                var i, len, results;
-                results = [];
-                for (i = 0, len = renderers.length; i < len; i++) {
-                    r = renderers[i];
-                    results.push(this.plot_view.renderer_views[r.id]);
-                }
-                return results;
-            }).call(this), geometry, final, append);
+        ref = this.model.computed_renderers;
+        for (i = 0, len = ref.length; i < len; i++) {
+            r = ref[i];
+            ds = r.data_source;
+            sm = ds.selection_manager;
+            sm.select(this, this.plot_view.renderer_views[r.id], geometry, final, append);
         }
         if (this.model.callback != null) {
             this._emit_callback(geometry);
@@ -23567,7 +23598,7 @@ exports.BoxSelectToolView = (function (superClass) {
         return null;
     };
     BoxSelectToolView.prototype._emit_callback = function (geometry) {
-        var canvas, frame, r, xscale, yscale;
+        var canvas, frame, r, xmapper, ymapper;
         r = this.model.computed_renderers[0];
         canvas = this.plot_model.canvas;
         frame = this.plot_model.frame;
@@ -23575,12 +23606,12 @@ exports.BoxSelectToolView = (function (superClass) {
         geometry['sx1'] = canvas.vx_to_sx(geometry.vx1);
         geometry['sy0'] = canvas.vy_to_sy(geometry.vy0);
         geometry['sy1'] = canvas.vy_to_sy(geometry.vy1);
-        xscale = frame.xscales[r.x_range_name];
-        yscale = frame.yscales[r.y_range_name];
-        geometry['x0'] = xscale.invert(geometry.vx0);
-        geometry['x1'] = xscale.invert(geometry.vx1);
-        geometry['y0'] = yscale.invert(geometry.vy0);
-        geometry['y1'] = yscale.invert(geometry.vy1);
+        xmapper = frame.x_mappers[r.x_range_name];
+        ymapper = frame.y_mappers[r.y_range_name];
+        geometry['x0'] = xmapper.map_from_target(geometry.vx0);
+        geometry['x1'] = xmapper.map_from_target(geometry.vx1);
+        geometry['y0'] = ymapper.map_from_target(geometry.vy0);
+        geometry['y1'] = ymapper.map_from_target(geometry.vy1);
         this.model.callback.execute(this.model, {
             geometry: geometry
         });
@@ -23765,25 +23796,25 @@ exports.BoxZoomToolView = (function (superClass) {
         return null;
     };
     BoxZoomToolView.prototype._update = function (vx, vy) {
-        var end, name, ref, ref1, ref2, ref3, scale, start, xrs, yrs, zoom_info;
+        var end, mapper, name, ref, ref1, ref2, ref3, start, xrs, yrs, zoom_info;
         if (Math.abs(vx[1] - vx[0]) <= 5 || Math.abs(vy[1] - vy[0]) <= 5) {
             return;
         }
         xrs = {};
-        ref = this.plot_view.frame.xscales;
+        ref = this.plot_view.frame.x_mappers;
         for (name in ref) {
-            scale = ref[name];
-            ref1 = scale.v_invert(vx, true), start = ref1[0], end = ref1[1];
+            mapper = ref[name];
+            ref1 = mapper.v_map_from_target(vx, true), start = ref1[0], end = ref1[1];
             xrs[name] = {
                 start: start,
                 end: end
             };
         }
         yrs = {};
-        ref2 = this.plot_view.frame.yscales;
+        ref2 = this.plot_view.frame.y_mappers;
         for (name in ref2) {
-            scale = ref2[name];
-            ref3 = scale.v_invert(vy, true), start = ref3[0], end = ref3[1];
+            mapper = ref2[name];
+            ref3 = mapper.v_map_from_target(vy, true), start = ref3[0], end = ref3[1];
             yrs[name] = {
                 start: start,
                 end: end
@@ -23965,25 +23996,18 @@ exports.LassoSelectToolView = (function (superClass) {
         });
     };
     LassoSelectToolView.prototype._select = function (vx, vy, final, append) {
-        var ds, geometry, r, renderers, renderers_by_source, sm;
+        var ds, geometry, i, len, r, ref, sm;
         geometry = {
             type: 'poly',
             vx: vx,
             vy: vy
         };
-        renderers_by_source = this.model._computed_renderers_by_data_source();
-        for (ds in renderers_by_source) {
-            renderers = renderers_by_source[ds];
-            sm = renderers[0].data_source.selection_manager;
-            sm.select(this, (function () {
-                var i, len, results;
-                results = [];
-                for (i = 0, len = renderers.length; i < len; i++) {
-                    r = renderers[i];
-                    results.push(this.plot_view.renderer_views[r.id]);
-                }
-                return results;
-            }).call(this), geometry, final, append);
+        ref = this.model.computed_renderers;
+        for (i = 0, len = ref.length; i < len; i++) {
+            r = ref[i];
+            ds = r.data_source;
+            sm = ds.selection_manager;
+            sm.select(this, this.plot_view.renderer_views[r.id], geometry, final, append);
         }
         if (this.model.callback != null) {
             this._emit_callback(geometry);
@@ -23992,16 +24016,16 @@ exports.LassoSelectToolView = (function (superClass) {
         return null;
     };
     LassoSelectToolView.prototype._emit_callback = function (geometry) {
-        var canvas, frame, r, xscale, yscale;
+        var canvas, frame, r, xmapper, ymapper;
         r = this.model.computed_renderers[0];
         canvas = this.plot_model.canvas;
         frame = this.plot_model.frame;
         geometry['sx'] = canvas.v_vx_to_sx(geometry.vx);
         geometry['sy'] = canvas.v_vy_to_sy(geometry.vy);
-        xscale = frame.xscales[r.x_range_name];
-        yscale = frame.yscales[r.y_range_name];
-        geometry['x'] = xscale.v_invert(geometry.vx);
-        geometry['y'] = yscale.v_invert(geometry.vy);
+        xmapper = frame.x_mappers[r.x_range_name];
+        ymapper = frame.y_mappers[r.y_range_name];
+        geometry['x'] = xmapper.v_map_from_target(geometry.vx);
+        geometry['y'] = ymapper.v_map_from_target(geometry.vy);
         this.model.callback.execute(this.model, {
             geometry: geometry
         });
@@ -24100,7 +24124,7 @@ exports.PanToolView = (function (superClass) {
         }
     };
     PanToolView.prototype._update = function (dx, dy) {
-        var dims, end, frame, hr, is_panning, name, new_dx, new_dy, ref, ref1, ref2, ref3, scale, sdx, sdy, start, sx0, sx1, sx_high, sx_low, sy0, sy1, sy_high, sy_low, vr, xrs, yrs;
+        var dims, end, frame, hr, is_panning, mapper, name, new_dx, new_dy, ref, ref1, ref2, ref3, sdx, sdy, start, sx0, sx1, sx_high, sx_low, sy0, sy1, sy_high, sy_low, vr, xrs, yrs;
         frame = this.plot_view.frame;
         new_dx = dx - this.last_dx;
         new_dy = dy - this.last_dy;
@@ -24134,20 +24158,20 @@ exports.PanToolView = (function (superClass) {
         this.last_dx = dx;
         this.last_dy = dy;
         xrs = {};
-        ref = frame.xscales;
+        ref = frame.x_mappers;
         for (name in ref) {
-            scale = ref[name];
-            ref1 = scale.v_invert([sx0, sx1], true), start = ref1[0], end = ref1[1];
+            mapper = ref[name];
+            ref1 = mapper.v_map_from_target([sx0, sx1], true), start = ref1[0], end = ref1[1];
             xrs[name] = {
                 start: start,
                 end: end
             };
         }
         yrs = {};
-        ref2 = frame.yscales;
+        ref2 = frame.y_mappers;
         for (name in ref2) {
-            scale = ref2[name];
-            ref3 = scale.v_invert([sy0, sy1], true), start = ref3[0], end = ref3[1];
+            mapper = ref2[name];
+            ref3 = mapper.v_map_from_target([sy0, sy1], true), start = ref3[0], end = ref3[1];
             yrs[name] = {
                 start: start,
                 end: end
@@ -24262,25 +24286,18 @@ exports.PolySelectToolView = (function (superClass) {
         });
     };
     PolySelectToolView.prototype._select = function (vx, vy, final, append) {
-        var ds, geometry, r, renderers, renderers_by_source, sm;
+        var ds, geometry, i, len, r, ref, sm;
         geometry = {
             type: 'poly',
             vx: vx,
             vy: vy
         };
-        renderers_by_source = this.model._computed_renderers_by_data_source();
-        for (ds in renderers_by_source) {
-            renderers = renderers_by_source[ds];
-            sm = renderers[0].data_source.selection_manager;
-            sm.select(this, (function () {
-                var i, len, results;
-                results = [];
-                for (i = 0, len = renderers.length; i < len; i++) {
-                    r = renderers[i];
-                    results.push(this.plot_view.renderer_views[r.id]);
-                }
-                return results;
-            }).call(this), geometry, final, append);
+        ref = this.model.computed_renderers;
+        for (i = 0, len = ref.length; i < len; i++) {
+            r = ref[i];
+            ds = r.data_source;
+            sm = ds.selection_manager;
+            sm.select(this, this.plot_view.renderer_views[r.id], geometry, final, append);
         }
         this._save_geometry(geometry, final, append);
         this.plot_view.push_state('poly_select', {
@@ -24387,8 +24404,8 @@ exports.ResizeToolView = (function (superClass) {
     ResizeToolView.prototype._pan_start = function (e) {
         var canvas;
         canvas = this.plot_view.canvas;
-        this.ch = canvas._height.value;
-        this.cw = canvas._width.value;
+        this.ch = canvas.height;
+        this.cw = canvas.width;
         this.plot_view.interactive_timestamp = Date.now();
         return null;
     };
@@ -24400,8 +24417,8 @@ exports.ResizeToolView = (function (superClass) {
     ResizeToolView.prototype._pan_end = function (e) {
         return this.plot_view.push_state("resize", {
             dimensions: {
-                width: this.plot_view.canvas._width.value,
-                height: this.plot_view.canvas._height.value
+                width: this.plot_view.canvas.width,
+                height: this.plot_view.canvas.height
             }
         });
     };
@@ -24464,25 +24481,25 @@ exports.SelectToolView = (function (superClass) {
     SelectToolView.prototype._save_geometry = function (geometry, final, append) {
         var g, geoms, i, j, ref, tool_events, xm, ym;
         g = object_1.clone(geometry);
-        xm = this.plot_view.frame.xscales['default'];
-        ym = this.plot_view.frame.yscales['default'];
+        xm = this.plot_view.frame.x_mappers['default'];
+        ym = this.plot_view.frame.y_mappers['default'];
         switch (g.type) {
             case 'point':
-                g.x = xm.invert(g.vx);
-                g.y = ym.invert(g.vy);
+                g.x = xm.map_from_target(g.vx);
+                g.y = ym.map_from_target(g.vy);
                 break;
             case 'rect':
-                g.x0 = xm.invert(g.vx0);
-                g.y0 = ym.invert(g.vy0);
-                g.x1 = xm.invert(g.vx1);
-                g.y1 = ym.invert(g.vy1);
+                g.x0 = xm.map_from_target(g.vx0);
+                g.y0 = ym.map_from_target(g.vy0);
+                g.x1 = xm.map_from_target(g.vx1);
+                g.y1 = ym.map_from_target(g.vy1);
                 break;
             case 'poly':
                 g.x = new Array(g.vx.length);
                 g.y = new Array(g.vy.length);
                 for (i = j = 0, ref = g.vx.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-                    g.x[i] = xm.invert(g.vx[i]);
-                    g.y[i] = ym.invert(g.vy[i]);
+                    g.x[i] = xm.map_from_target(g.vx[i]);
+                    g.y[i] = ym.map_from_target(g.vy[i]);
                 }
                 break;
             default:
@@ -24558,21 +24575,6 @@ exports.SelectTool = (function (superClass) {
             return this._get_computed('computed_renderers');
         }
     });
-    SelectTool.prototype._computed_renderers_by_data_source = function () {
-        var j, len, r, ref, renderers_by_source;
-        renderers_by_source = {};
-        ref = this.computed_renderers;
-        for (j = 0, len = ref.length; j < len; j++) {
-            r = ref[j];
-            if (!(r.data_source.id in renderers_by_source)) {
-                renderers_by_source[r.data_source.id] = [r];
-            }
-            else {
-                renderers_by_source[r.data_source.id] = renderers_by_source[r.data_source.id].concat([r]);
-            }
-        }
-        return renderers_by_source;
-    };
     return SelectTool;
 })(gesture_tool_1.GestureTool);
 
@@ -24600,7 +24602,7 @@ exports.TapToolView = (function (superClass) {
         return this._select(vx, vy, true, append);
     };
     TapToolView.prototype._select = function (vx, vy, final, append) {
-        var callback, cb_data, did_hit, ds, geometry, i, len, r, ref, renderers, renderers_by_source, sm, view;
+        var callback, cb_data, did_hit, ds, geometry, i, len, r, ref, sm, view;
         geometry = {
             type: 'point',
             vx: vx,
@@ -24611,52 +24613,33 @@ exports.TapToolView = (function (superClass) {
         cb_data = {
             geometries: this.plot_model.plot.tool_events.geometries
         };
-        if (this.model.behavior === "select") {
-            renderers_by_source = this.model._computed_renderers_by_data_source();
-            for (ds in renderers_by_source) {
-                renderers = renderers_by_source[ds];
-                sm = renderers[0].data_source.selection_manager;
-                did_hit = sm.select(this, (function () {
-                    var i, len, results;
-                    results = [];
-                    for (i = 0, len = renderers.length; i < len; i++) {
-                        r = renderers[i];
-                        results.push(this.plot_view.renderer_views[r.id]);
-                    }
-                    return results;
-                }).call(this), geometry, final, append);
-                if (did_hit && (callback != null)) {
-                    if (types_1.isFunction(callback)) {
-                        callback(ds, cb_data);
-                    }
-                    else {
-                        callback.execute(ds, cb_data);
-                    }
-                }
+        ref = this.model.computed_renderers;
+        for (i = 0, len = ref.length; i < len; i++) {
+            r = ref[i];
+            ds = r.data_source;
+            sm = ds.selection_manager;
+            view = this.plot_view.renderer_views[r.id];
+            if (this.model.behavior === "select") {
+                did_hit = sm.select(this, view, geometry, final, append);
             }
-            this.plot_view.push_state('tap', {
-                selection: this.plot_view.get_selection()
-            });
-        }
-        else {
-            ref = this.model.computed_renderers;
-            for (i = 0, len = ref.length; i < len; i++) {
-                r = ref[i];
-                ds = r.data_source;
-                sm = ds.selection_manager;
-                view = this.plot_view.renderer_views[r.id];
+            else {
                 did_hit = sm.inspect(this, view, geometry, {
                     geometry: geometry
                 });
-                if (did_hit && (callback != null)) {
-                    if (types_1.isFunction(callback)) {
-                        callback(ds, cb_data);
-                    }
-                    else {
-                        callback.execute(ds, cb_data);
-                    }
+            }
+            if (did_hit && (callback != null)) {
+                if (types_1.isFunction(callback)) {
+                    callback(ds, cb_data);
+                }
+                else {
+                    callback.execute(ds, cb_data);
                 }
             }
+        }
+        if (this.model.behavior === "select") {
+            this.plot_view.push_state('tap', {
+                selection: this.plot_view.get_selection()
+            });
         }
         return null;
     };
@@ -24706,7 +24689,7 @@ exports.WheelPanToolView = (function (superClass) {
         return this._update_ranges(factor);
     };
     WheelPanToolView.prototype._update_ranges = function (factor) {
-        var end, frame, hr, name, pan_info, ref, ref1, ref2, ref3, ref4, ref5, scale, start, sx0, sx1, sy0, sy1, vr, vx_high, vx_low, vx_range, vy_high, vy_low, vy_range, xrs, yrs;
+        var end, frame, hr, mapper, name, pan_info, ref, ref1, ref2, ref3, ref4, ref5, start, sx0, sx1, sy0, sy1, vr, vx_high, vx_low, vx_range, vy_high, vy_low, vy_range, xrs, yrs;
         frame = this.plot_model.frame;
         hr = frame.h_range;
         vr = frame.v_range;
@@ -24728,20 +24711,20 @@ exports.WheelPanToolView = (function (superClass) {
                 sy1 = vy_high;
         }
         xrs = {};
-        ref2 = frame.xscales;
+        ref2 = frame.x_mappers;
         for (name in ref2) {
-            scale = ref2[name];
-            ref3 = scale.v_invert([sx0, sx1], true), start = ref3[0], end = ref3[1];
+            mapper = ref2[name];
+            ref3 = mapper.v_map_from_target([sx0, sx1], true), start = ref3[0], end = ref3[1];
             xrs[name] = {
                 start: start,
                 end: end
             };
         }
         yrs = {};
-        ref4 = frame.yscales;
+        ref4 = frame.y_mappers;
         for (name in ref4) {
-            scale = ref4[name];
-            ref5 = scale.v_invert([sy0, sy1], true), start = ref5[0], end = ref5[1];
+            mapper = ref4[name];
+            ref5 = mapper.v_map_from_target([sy0, sy1], true), start = ref5[0], end = ref5[1];
             yrs[name] = {
                 start: start,
                 end: end
@@ -25133,7 +25116,7 @@ exports.HoverToolView = (function (superClass) {
         }
     };
     HoverToolView.prototype._update = function (indices, tool, renderer, ds, arg) {
-        var canvas, d1x, d1y, d2x, d2y, data_x, data_y, dist1, dist2, frame, geometry, i, j, k, l, len, len1, pt, ref, ref1, ref10, ref11, ref12, ref13, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rx, ry, sdatax, sdatay, sx, sy, tooltip, vars, vx, vy, x, xscale, y, yscale;
+        var canvas, d1x, d1y, d2x, d2y, data_x, data_y, dist1, dist2, frame, geometry, i, j, k, l, len, len1, pt, ref, ref1, ref10, ref11, ref12, ref13, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, rx, ry, sdatax, sdatay, sx, sy, tooltip, vars, vx, vy, x, xmapper, y, ymapper;
         geometry = arg.geometry;
         if (!this.model.active) {
             return;
@@ -25152,10 +25135,10 @@ exports.HoverToolView = (function (superClass) {
         frame = this.plot_model.frame;
         sx = canvas.vx_to_sx(vx);
         sy = canvas.vy_to_sy(vy);
-        xscale = frame.xscales[renderer.model.x_range_name];
-        yscale = frame.yscales[renderer.model.y_range_name];
-        x = xscale.invert(vx);
-        y = yscale.invert(vy);
+        xmapper = frame.x_mappers[renderer.model.x_range_name];
+        ymapper = frame.y_mappers[renderer.model.y_range_name];
+        x = xmapper.map_from_target(vx);
+        y = ymapper.map_from_target(vy);
         ref1 = indices['0d'].indices;
         for (k = 0, len = ref1.length; k < len; k++) {
             i = ref1[k];
@@ -25164,8 +25147,8 @@ exports.HoverToolView = (function (superClass) {
             switch (this.model.line_policy) {
                 case "interp":
                     ref2 = renderer.glyph.get_interpolation_hit(i, geometry), data_x = ref2[0], data_y = ref2[1];
-                    rx = xscale.compute(data_x);
-                    ry = yscale.compute(data_y);
+                    rx = xmapper.map_to_target(data_x);
+                    ry = ymapper.map_to_target(data_y);
                     break;
                 case "prev":
                     rx = canvas.sx_to_vx(renderer.glyph.sx[i]);
@@ -25224,8 +25207,8 @@ exports.HoverToolView = (function (superClass) {
                     switch (this.model.line_policy) {
                         case "interp":
                             ref8 = renderer.glyph.get_interpolation_hit(i, j, geometry), data_x = ref8[0], data_y = ref8[1];
-                            rx = xscale.compute(data_x);
-                            ry = yscale.compute(data_y);
+                            rx = xmapper.map_to_target(data_x);
+                            ry = ymapper.map_to_target(data_y);
                             break;
                         case "prev":
                             rx = canvas.sx_to_vx(renderer.glyph.sxs[i][j]);
@@ -25300,17 +25283,17 @@ exports.HoverToolView = (function (superClass) {
         return null;
     };
     HoverToolView.prototype._emit_callback = function (geometry) {
-        var callback, canvas, data, frame, indices, obj, r, ref, xscale, yscale;
+        var callback, canvas, data, frame, indices, obj, r, ref, xmapper, ymapper;
         r = this.model.computed_renderers[0];
         indices = this.plot_view.renderer_views[r.id].hit_test(geometry);
         canvas = this.plot_model.canvas;
         frame = this.plot_model.frame;
         geometry['sx'] = canvas.vx_to_sx(geometry.vx);
         geometry['sy'] = canvas.vy_to_sy(geometry.vy);
-        xscale = frame.xscales[r.x_range_name];
-        yscale = frame.yscales[r.y_range_name];
-        geometry['x'] = xscale.invert(geometry.vx);
-        geometry['y'] = yscale.invert(geometry.vy);
+        xmapper = frame.x_mappers[r.x_range_name];
+        ymapper = frame.y_mappers[r.y_range_name];
+        geometry['x'] = xmapper.map_from_target(geometry.vx);
+        geometry['y'] = ymapper.map_from_target(geometry.vy);
         callback = this.model.callback;
         ref = [
             callback, {
@@ -25905,10 +25888,10 @@ exports.ToolbarBaseView = (function (superClass) {
         var buttons, et, gestures, i, j, k, l, len, len1, len2, len3, obj, ref, ref1, ref2, ref3;
         dom_1.empty(this.el);
         if (this.model.sizing_mode !== 'fixed') {
-            this.el.style.left = this.model._dom_left.value + "px";
-            this.el.style.top = this.model._dom_top.value + "px";
-            this.el.style.width = this.model._width.value + "px";
-            this.el.style.height = this.model._height.value + "px";
+            this.el.style.left = this.model._dom_left._value + "px";
+            this.el.style.top = this.model._dom_top._value + "px";
+            this.el.style.width = this.model._width._value + "px";
+            this.el.style.height = this.model._height._value + "px";
         }
         this.el.appendChild(this.template({
             logo: this.model.logo,
@@ -25981,20 +25964,17 @@ exports.ToolbarBase = (function (superClass) {
         return this._sizeable = !horizontal ? this._height : this._width;
     };
     ToolbarBase.prototype._active_change = function (tool) {
-        var currently_active_tool, event_type;
+        var currently_active_tool, event_type, gestures;
         event_type = tool.event_type;
-        if (tool.active) {
-            currently_active_tool = this.gestures[event_type].active;
-            if (currently_active_tool != null) {
-                logging_1.logger.debug("Toolbar: deactivating tool: " + currently_active_tool.type + " (" + currently_active_tool.id + ") for event type '" + event_type + "'");
-                currently_active_tool.active = false;
-            }
-            this.gestures[event_type].active = tool;
-            logging_1.logger.debug("Toolbar: activating tool: " + tool.type + " (" + tool.id + ") for event type '" + event_type + "'");
+        gestures = this.gestures;
+        currently_active_tool = gestures[event_type].active;
+        if ((currently_active_tool != null) && currently_active_tool !== tool) {
+            logging_1.logger.debug("Toolbar: deactivating tool: " + currently_active_tool.type + " (" + currently_active_tool.id + ") for event type '" + event_type + "'");
+            currently_active_tool.active = false;
         }
-        else {
-            this.gestures[event_type].active = null;
-        }
+        gestures[event_type].active = tool;
+        this.gestures = gestures;
+        logging_1.logger.debug("Toolbar: activating tool: " + tool.type + " (" + tool.id + ") for event type '" + event_type + "'");
         return null;
     };
     ToolbarBase.prototype.get_constraints = function () {
@@ -36409,216 +36389,6 @@ sprintf.vsprintf = vsprintf;
 
   return function () { return context.convert(arguments) };
 });
-
-},{}],"tslib/tslib":[function(require,module,exports){
-(function (global){
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-/* global global, define, System, Reflect, Promise */
-var __extends;
-var __assign;
-var __rest;
-var __decorate;
-var __param;
-var __metadata;
-var __awaiter;
-var __generator;
-var __exportStar;
-var __values;
-var __read;
-var __spread;
-var __asyncGenerator;
-var __asyncDelegator;
-var __asyncValues;
-(function (factory) {
-    var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
-    if (typeof define === "function" && define.amd) {
-        define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
-    }
-    else if (typeof module === "object" && typeof module.exports === "object") {
-        factory(createExporter(root, createExporter(module.exports)));
-    }
-    else {
-        factory(createExporter(root));
-    }
-    function createExporter(exports, previous) {
-        return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
-    }
-})
-(function (exporter) {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-
-    __extends = function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-
-    __assign = Object.assign || function (t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-
-    __rest = function (s, e) {
-        var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-        if (s != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-                t[p[i]] = s[p[i]];
-        return t;
-    };
-
-    __decorate = function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-
-    __param = function (paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); }
-    };
-
-    __metadata = function (metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-    };
-
-    __awaiter = function (thisArg, _arguments, P, generator) {
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
-
-    __generator = function (thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-        function verb(n) { return function (v) { return step([n, v]); }; }
-        function step(op) {
-            if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
-                if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-                if (y = 0, t) op = [0, t.value];
-                switch (op[0]) {
-                    case 0: case 1: t = op; break;
-                    case 4: _.label++; return { value: op[1], done: false };
-                    case 5: _.label++; y = op[1]; op = [0]; continue;
-                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                    default:
-                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                        if (t[2]) _.ops.pop();
-                        _.trys.pop(); continue;
-                }
-                op = body.call(thisArg, _);
-            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-        }
-    };
-
-    __exportStar = function (m, exports) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-    };
-
-    __values = function (o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-        if (m) return m.call(o);
-        return {
-            next: function () {
-                if (o && i >= o.length) o = void 0;
-                return { value: o && o[i++], done: !o };
-            }
-        };
-    };
-
-    __read = function (o, n) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
-        var i = m.call(o), r, ar = [], e;
-        try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-        }
-        catch (error) { e = { error: error }; }
-        finally {
-            try {
-                if (r && !r.done && (m = i["return"])) m.call(i);
-            }
-            finally { if (e) throw e.error; }
-        }
-        return ar;
-    };
-
-    __spread = function () {
-        for (var ar = [], i = 0; i < arguments.length; i++)
-            ar = ar.concat(__read(arguments[i]));
-        return ar;
-    };
-
-    __asyncGenerator = function (thisArg, _arguments, generator) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
-        return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
-        function verb(n) { return function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]), next(); }); }; }
-        function next() { if (!c && q.length) resume((c = q.shift())[0], c[1]); }
-        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(c[3], e); } }
-        function step(r) { r.done ? settle(c[2], r) : Promise.resolve(r.value[1]).then(r.value[0] === "yield" ? send : fulfill, reject); }
-        function send(value) { settle(c[2], { value: value, done: false }); }
-        function fulfill(value) { resume("next", value); }
-        function reject(value) { resume("throw", value); }
-        function settle(f, v) { c = void 0, f(v), next(); }
-    };
-
-    __asyncDelegator = function (o) {
-        var i = { next: verb("next"), "throw": verb("throw", function (e) { throw e; }), "return": verb("return", function (v) { return { value: v, done: true }; }) }, p;
-        return o = __asyncValues(o), i[Symbol.iterator] = function () { return this; }, i;
-        function verb(n, f) { return function (v) { return v = p && n === "throw" ? f(v) : p && v.done ? v : { value: p ? ["yield", v.value] : ["await", (o[n] || f).call(o, v)], done: false }, p = !p, v; }; }
-    };
-
-    __asyncValues = function (o) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var m = o[Symbol.asyncIterator];
-        return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-    };
-
-    exporter("__extends", __extends);
-    exporter("__assign", __assign);
-    exporter("__rest", __rest);
-    exporter("__decorate", __decorate);
-    exporter("__param", __param);
-    exporter("__metadata", __metadata);
-    exporter("__awaiter", __awaiter);
-    exporter("__generator", __generator);
-    exporter("__exportStar", __exportStar);
-    exporter("__values", __values);
-    exporter("__read", __read);
-    exporter("__spread", __spread);
-    exporter("__asyncGenerator", __asyncGenerator);
-    exporter("__asyncDelegator", __asyncDelegator);
-    exporter("__asyncValues", __asyncValues);
-});
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
 },{}]},{},["main"])
 
