@@ -1,7 +1,7 @@
 from bokeh.plotting import figure
 from bokeh.embed import components
 
-plot = figure(responsive=True)
+plot = figure(responsive=True, toolbar_location="above")
 plot.circle([1,2], [3,4])
 
 script, div = components(plot)
